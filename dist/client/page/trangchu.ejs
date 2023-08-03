@@ -1,0 +1,71 @@
+<%- include('./css')%>
+
+    <body>
+        <%- include('./header')%>
+            <div class="container my-3">
+                <div class="row justify-content-center">
+                    <div class="col-2 shadow-box rounded-lg p-0">
+                        <% listBigCate.forEach((v)=> {%>
+                            <form action="<%=ip%>product" class="" method="post"
+                                enctype="application/x-www-form-urlencoded">
+                                <input type="hidden" value="<%=v.idBigCategory%>" name="idBigCategory">
+                                <input type="hidden" value="<%=crt%>" name="v">
+                                <input type="submit" class="fw-bold col-12  border border-light" value="<%=v.name%>">
+                            </form>
+                            <%})%>
+                    </div>
+                    <div class="col-6 my-2 p-0 mx-3 shadow-box">
+                        <img class="small-image w-100" src="<%=ip%>static/banner/chao-he-loa-sony-x-series-slide.png"
+                            height="auto" width="100%" alt="" srcset="" />
+                    </div>
+                    <div class="col-3">
+                        <div class="my-2 shadow-box col-10">
+                            <img class="small-image" src="<%=ip%>static/banner/m14-right-new00978.png" height="auto"
+                                width="100%" alt="" srcset="" />
+                        </div>
+                        <div class="my-2 shadow-box col-10">
+                            <img class="small-image" src="<%=ip%>static/banner/msi gaming right banner.jpg"
+                                height="auto" width="100%" alt="" srcset="" />
+                        </div>
+                        <div class="my-2 shadow-box col-10">
+                            <img class="small-image" src="<%=ip%>static/banner/right-ip14-pro-max-th66666.png"
+                                height="auto" width="100%" alt="" srcset="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row justify-content-center ">
+                    <h1 class="col-10 my-3 bg-light p-3 rounded">Điện thoại</h1>
+                </div>
+                <div class="row justify-content-center">
+                    <% for (let i=0; i < 5 ;i++) { %>
+                        <a href="<%ip%>product" style="text-decoration: none;" class="product bg-light col-2 px-2 py-4">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <img class="col-12"
+                                        src="<%=ip%>static/imageProduct/image-1685113874534-716877965iphone13promax.jpg"
+                                        alt="" />
+                                </div>
+                            </div>
+                            <div class="product-name">iphone 13 promax</div>
+                            <div class="product-price">13.000.000Đ</div>
+                        </a>
+                        <%}%>
+                </div>
+            </div>
+            <div style="height: 500px">
+                <button type="button" onclick="d()" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+    </body>
+    <script>
+        function d() {
+            alert('dsa')
+            var alertList = document.querySelectorAll('.alert')
+            alertList.forEach(function (alert) {
+                new bootstrap.Alert(alert)
+            })
+        }
+    </script>
+
+    </html>

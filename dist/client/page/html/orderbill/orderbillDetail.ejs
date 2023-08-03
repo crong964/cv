@@ -1,0 +1,91 @@
+<%- include('../../css')%>
+
+    <body>
+        <%- include('../../header.ejs')%>
+            <div class="container " style="min-height: 700px;">
+                <div class="row">
+                    <div class="col-1">
+                        
+                    </div>
+                    <div class="col-11">
+                        <div class="container">
+                            <div class="bg-light my-3">
+
+                                <a class="btn btn-primary" href="<%=ip%>orderbill">quay lại</a>
+
+                            </div>
+                            <div class="bg-light rounded" style="min-height: 500px;">
+                                <table class="table ">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="text-center">Ảnh sản phẩm</th>
+                                            <th scope="col">giá mua</th>
+                                            <th scope="col">số lượng</th>
+                                            <th scope="col">tổng tiền</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%list.forEach((v)=> {%>
+                                            <tr>
+                                                <td scope="row">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-3">
+                                                                <img id="avatar" style="width: 100px; height: auto;"
+                                                                    src="<%=ip%>static/imageProduct/<%=v.image%>" alt=""
+                                                                    srcset="">
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <%=v.nameChildProduct%>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <%=v.price%>
+                                                </td>
+                                                <td>
+                                                    <%=v.quantity%>
+                                                </td>
+                                                <td>
+                                                    <%=v.price*v.quantity%>
+                                                </td>
+                                            </tr>
+                                            <% })%>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="1" class="fw-bold text-center">tống tiền</td>
+                                            <td colspan="3">
+                                                <%=bill.totolmoney%>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1" class="fw-bold text-center">Thanh toán</td>
+                                            <td colspan="3">
+                                                <%=bill.payS%>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1" class="fw-bold text-center">Trạng thái đơn hàng</td>
+                                            <td colspan="3">
+                                                <%=bill.shipS%>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="1" class="fw-bold text-center">ngày đặt</td>
+                                            <td colspan="3">
+                                                <%=bill.createday%>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <%- include('../../footer.ejs')%>
+    </body>

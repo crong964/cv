@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../css.ejs')%>
+
+    <body>
+        <%- include('../header')%>
+            <div class="row w-100">
+                <%- include('../navi')%>
+                    <div class="col-md-9 col-lg-10 p-0">
+                        <div class="">
+                            <div class="bg-light rounded my-5 p-2">
+                                <div class="mb-3 row">
+                                    <label for="" class="col-sm-2 col-form-label">Mã sản phẩm</label>
+                                    <div class="col-sm-10">
+                                        <div>
+                                            <%=bill.id%>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="" class="col-sm-2 col-form-label">số điện thoại</label>
+                                    <div class="col-sm-10">
+                                        <%=bill.numberphone%>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="inputPassword" class="col-sm-2 col-form-label">địa chỉ</label>
+                                    <div class="col-sm-10">
+                                        <%=bill.address%>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="inputPassword" class="col-sm-2 col-form-label">ngày tạo</label>
+                                    <div class="col-sm-10">
+                                        <%=bill.createday%>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+    </body>
+
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../css')%>
+
+  <body>
+    <%- include('../header')%>
+      <div class="row w-100">
+        <%- include('../navi')%>
+          <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex mt-3">
+              <div class="flex mr-2" onclick="getAllTemProdct()">
+                <a class="btn btn-primary" title="Thêm"> Tạo mới hóa đơn</a>
+              </div>
+            </div>
+            <div class="table-responsive" id="sampleTable">
+              <a href="<%=ip%>admin/imPortBill/" class="btn btn-success my-3">
+                quay lại
+              </a>
+              <div class="flex flex-wrap sticky top-0 bg-white" id="C0">
+                <a class="btn btn-primary" href="#C1">Danh sách sản phẩm nhập của hóa đơn</a>
+                <a class="btn btn-primary" href="#C2">Danh sách sản phẩm sẽ nhập của hóa đơn</a>
+                <a class="btn btn-primary" href="#C3">Danh sách hóa đơn nhập hàng</a>
+              </div>
+              <h2 class="text-center my-3" id="C1">
+                Danh sách sản phậm nhập của hóa đơn
+              </h2>
+              <div class="border-t-2 flex items-center justify-center my-3 py-2">
+                <label for="idImportBill" class="text-lg">
+                  <span class="font-bold">Mã đơn hàng</span>
+                  <span class="font-bold">
+                    <%=bill.idImportBill%>
+                  </span>
+                </label>
+                <label for="idImportBill" class="text-lg">
+                  <span class="font-bold">Ngày tạo</span>
+                  <span class="font-bold">
+                    <%=bill.createdDay %>
+                  </span>
+                </label>
+              </div>
+              <table class="table table-hover table-bordered mb-28" id="sampleTable">
+                <thead>
+                  <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Ảnh sản phẩm</th>
+                    <th>Giá nhập</th>
+                    <th>tổng số đặt</th>
+                  </tr>
+                </thead>
+                <tbody class="tabledata">
+                  <% for (let i=0; i < listImportChildPro.length; i++) { const element=listImportChildPro[i];%>
+                    <tr class="text-base">
+                      <td>
+                        <%=element.nameChildProduct%>
+                      </td>
+                      <td>
+                        <img src="<%=ip%>static/imageProduct/<%= element.image%>" alt="" width="100px;" />
+                      </td>
+                      <td class="p">
+                        <%=element.importPrice%>
+                      </td>
+                      <td>
+                        <%=element.amount%>
+                      </td>
+                    </tr>
+                    <%}%>
+                </tbody>
+              </table>
+              <% if (dem> 0) {%>
+                <form method="post" id="fromFletch" class="mt-5">
+                  <div class="text-center" id="C2">
+                    Danh sách sản phậm sẽ nhập của hóa đơn
+                  </div>
+                  <div class="border-t-2 flex items-center justify-center my-3 py-2">
+                    <label for="idImportBill" class="text-lg">
+                      <span class="font-bold">Mã đơn hàng</span>
+                      <input type="text" id="idImportedBill" class="border-2 px-3 py-1" name="idImportedBill"
+                        value="<%=idImportedBill%>" />
+                      <input type="hidden" id="idImportBill" class="border-2 px-3 py-1" name="idImportBill"
+                        value="<%=bill.idImportBill%>" />
+                    </label>
+                  </div>
+                  <table class="table table-hover table-bordered" id="sampleTable">
+                    <thead>
+                      <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Ảnh sản phẩm</th>
+                        <th>Giá nhập</th>
+                        <th>Số lượng còn lại</th>
+                        <th>Số lượng nhập</th>
+                        <th>Tổng tiền nhập</th>
+                      </tr>
+                    </thead>
+                    <tbody class="tabledata">
+                      <% for (let i=0; i < listImportChildPro.length; i++) { const element=listImportChildPro[i];%>
+                        <%if (element.amount - element.importedAmount> 0) {%>
+                          <tr class="text-base WillImportChildProTableCell">
+                            <input type="hidden" name="idChildProduct" value="<%=element.idChildProduct%>" />
+
+                            <td>
+                              <%=element.nameChildProduct%>
+                            </td>
+                            <td>
+                              <img src="<%=ip%>static/imageProduct/<%=element.image%>" alt="" width="100px;" />
+                            </td>
+                            <td class="p">
+                              <%=element.importPrice%>
+                            </td>
+                            <td><%=element.amount-element.importedAmount%></td>
+                            <td>
+                              <input type="number" id="quantity" name="importQuantity" value="0"
+                                onchange="computeTotalMoney('<%=element.importPrice%>','<%=element.idChildProduct%>',this)"
+                                onkeyup="computeTotalMoney('<%=element.importPrice%>','<%=element.idChildProduct%>',this)" />
+                            </td>
+                            <td id="<%=element.idChildProduct%>">0 Đ</td>
+                          </tr>
+                          <%}%>
+                            <%}%>
+                    </tbody>
+                  </table>
+                </form>
+                <div class="flex">
+                  <button onclick="importChildPro()" class="btn btn-primary">
+                    Nhập vào kho
+                  </button>
+                </div>
+                <%}%>
+
+                  <h4 class="text-center">Danh sách các hóa đơn đã nhập hàng</h4>
+                  <table class="table table-hover table-bordered" id="sampleTable">
+                    <thead>
+                      <tr>
+                        <th>Mã người tạo</th>
+                        <th>Mã Hóa đơn</th>
+                        <th>Ngày Tạo</th>
+                        <th>Trạng thái</th>
+                        <th>Xem chi tiết</th>
+                      </tr>
+                    </thead>
+                    <tbody class="tabledata">
+                      <%for (let i=0; i < listImportedBill.length; i++) { const element=listImportedBill[i];%>
+                        <tr class="text-base">
+                          <td>
+                            <%=element.idForUser%>
+                          </td>
+                          <td>
+                            <%=element.idImportedBill%>
+                          </td>
+                          <td>
+                            <%=element.createdDay%>
+                          </td>
+                          <td>
+                            <%= element.status%>
+                          </td>
+                          <td>
+                            <a href="<%=ip%>admin/containImportedBill/<%=element.idImportedBill%>" class="product">Xem chi
+                              tiết</a>
+                          </td>
+                        </tr>
+                        <%}%>
+                    </tbody>
+                  </table>
+            </div>
+            <div style="height: 200px"></div>
+          </div>
+      </div>
+  </body>
+  <script type="text/javascript" src="<%=ip%>static/js/action.js"></script>
+  <script src="<%=ip%>static/js/table-importChildPro.js"></script>
+
+  <script defer>
+    var p = document.querySelectorAll(".p");
+    p.forEach((v) => {
+      console.log(v);
+      v.innerHTML = convertMoney(v.innerHTML.trim());
+    });
+  </script>
+
+</html>

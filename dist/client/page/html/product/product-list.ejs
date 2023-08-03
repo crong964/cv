@@ -1,0 +1,56 @@
+<%- include('../../css')%>
+
+    <body>
+        <%- include('../../header')%>
+
+            <div class="container">
+                <div class="row justify-content-center mt-4">
+                    <div class="col-2 shadow-box rounded-lg p-0">
+                        <% listBigCate.forEach((v)=> {%>
+                            <form action="<%=ip%>product" class="" method="post"
+                                enctype="application/x-www-form-urlencoded">
+                                <input type="hidden" value="<%=v.idBigCategory%>" name="idBigCategory" />
+                                <input type="hidden" value="<%=crt%>" name="v" />
+                                <input type="submit" class="fw-bold col-12 border border-light" value="<%=v.name%>" />
+                            </form>
+                            <%})%>
+                    </div>
+                    <div class="col-10">
+                        <img width="100%" src="<%=ip%>static/banner/chao-he-loa-sony-x-series-slide.png" alt="" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <div>danh mục</div>
+                    </div>
+                    <div class="col-10">
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <% list.forEach((v)=> {%>
+                                    <a href="<%ip%>product/<%=v.idProduct%>" style="text-decoration: none;"
+                                        class="product col-3 px-2 py-4 my-3">
+                                        <div class="container h ">
+                                            <div class="row justify-content-center ">
+                                                <img class="col-8" src="<%=ip%>static/imageProduct/<%=v.image%>"
+                                                    alt="" />
+                                            </div>
+                                            <div class="product-name">
+                                                <%=v.namePro%>
+                                            </div>
+                                        </div>
+                                        <div class="product-price">
+                                            <%=v.Price%>
+                                        </div>
+                                        <div class="product-price"> số lượng
+                                            <%=v.amount%>
+
+                                        </div>
+                                    </a>
+                                    <% });%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%- include('../../footer')%>
+    </body>

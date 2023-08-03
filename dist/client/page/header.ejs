@@ -1,0 +1,49 @@
+<div class="row w-100">
+    <div class="col-lg-4">
+        <img width="100%" src="<%=ip%>static/banner/top-banner-chinh-hang-xuat-vat-day-du.png" alt="" srcset="" />
+    </div>
+    <div class="col-lg-4">
+        <img width="100%" src="<%=ip%>static/banner/top-banner-chinh-sach-bao-hanh-doi-tra.png" alt="" srcset="" />
+    </div>
+    <div class="col-lg-4">
+        <img width="100%" src="<%=ip%>static/banner/top-banner-giao-nhanh-mien-phi.png" alt="" srcset="" />
+    </div>
+</div>
+<div class="head">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <a class="btn btn-danger text-size-33" href="<%=ip%>">My Store</a>
+            </div>
+            <form class="col-lg-3 col-md-3 col-sm-3" action="" method="post">
+                <div class="container">
+                    <div class="row">
+                        <input type="text" style="height: 40px" class="col-lg-10 mr-3 rounded" />
+                    </div>
+                </div>
+            </form>
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <div>số điện thoại</div>
+                <div>034.828.1129</div>
+            </div>
+            <div class="col-lg-1 col-md-2 col-sm-2"><a class="dropdown-item" href="<%=ip%>shoppingcart">giỏ hàng</a></div>
+            <% if (name){%>
+                <div class=" col-lg-1 col-md-1 col-sm-1 rounded dropdown">
+                    <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <%=name%>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="<%=ip%>#">Thông tin cá nhân</a>
+                        <a class="dropdown-item" href="<%=ip%>orderbill/">Đơn mua</a>
+                        <a class="dropdown-item" href="<%=ip%>account/signout">Đăng xuất</a>
+                    </div>
+                </div>
+                <%} else{%>
+                    <a href="<%=ip%>account" class="btn col-lg-1 col-md-1 col-sm-1 rounded">
+                        đăng nhập
+                    </a>
+                    <%}%>
+        </div>
+    </div>
+</div>

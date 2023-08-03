@@ -1,0 +1,83 @@
+<%- include('../../css')%>
+
+    <body>
+        <%- include('../../header')%>
+            <div class="container p-0" style="min-height: 700px;">
+                <div class="row p-0">
+                    <div class="col-2 p-0 pt-5">
+                        <%- include('../../infor.ejs')%>
+                    </div>
+                    <div class="col-10 p-0">
+                        <div class="container">
+                            <div class="bg-light my-3">
+                                danh sách đơn hàng
+                            </div>
+                            <div class="container bg-light my-3">
+                                <div class="row">
+                                    <a class="col-2 btn" href="<%=ip%>orderbill/">
+                                        tất cả
+                                    </a>
+                                    <% ship.forEach((v,i)=>{%>
+                                        <a class="col-2 btn" href="<%=ip%>orderbill/?va=<%=i%>&type=ship">
+                                            <%= v%>
+                                        </a>
+                                        <%})%>
+                                            <% pay.forEach((v,i)=>{%>
+                                                <a class="col-2 btn" href="<%=ip%>orderbill/?va=<%=i%>&type=pay">
+                                                    <%= v%>
+                                                </a>
+                                                <%})%>
+                                </div>
+                            </div>
+                            <div class="bg-light rounded" style="min-height: 500px;">
+                                <table class="table ">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">mã đơn hàng</th>
+                                            <th scope="col">ngày tạo</th>
+                                            <th scope="col">gian hàng</th>
+                                            <th scope="col">thành toán</th>
+                                            <th scope="col">tổng tiền</th>
+                                            <th scope="col">chi tiết</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%list.forEach((v)=> {%>
+                                            <tr>
+                                                <td class="text-center">
+                                                    <%= v.id%>
+                                                </td>
+                                                <td>
+                                                    <%=v.createday%>
+                                                </td>
+                                                <td>
+                                                    <%=v.shipS%>
+                                                </td>
+                                                <td>
+                                                    <%=v.payS%>
+                                                </td>
+                                                <td>
+                                                    <%= v.totolmoney%>
+                                                </td>
+                                                <td>
+                                                    <form action="<%=ip%>orderbill" method="post">
+                                                        <input type="hidden" name="ser" value="<%=ser%>">
+                                                        <input type="hidden" name="id" value="<%=v.id%>">
+                                                        <button class="btn btn-primary">Xem chi tiết</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <%})%>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <%- include('../../footer.ejs')%>
+    </body>

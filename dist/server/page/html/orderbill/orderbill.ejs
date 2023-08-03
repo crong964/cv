@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../css.ejs')%>
+
+    <body>
+        <%- include('../header')%>
+            <div class="row w-100">
+                <%- include('../navi')%>
+                    <div class="col-md-9 ms-sm-auto col-lg-10 p-0">
+                        <div class="bg-light p-0 mt-5 rounded">
+                            <div class="row">
+                                <a class="col-2 btn" href="<%=ip%>admin/orderbill/">
+                                    tất cả
+                                </a>
+                                <% ship.forEach((v,i)=>{%>
+                                    <a class="col-2 btn" href="<%=ip%>admin/orderbill/?va=<%=i%>&type=ship">
+                                        <%= v%>
+                                    </a>
+                                    <%})%>
+                                        <% pay.forEach((v,i)=>{%>
+                                            <a class="col-2 btn" href="<%=ip%>admin/orderbill/?va=<%=i%>&type=pay">
+                                                <%= v%>
+                                            </a>
+                                            <%})%>
+                            </div>
+                        </div>
+                        <div class="">
+                            <table class="table bg-light mt-5">
+                                <thead>
+                                    <tr>
+                                        <td>mã sản phẩm</td>
+                                        <td>ngày tạo</td>
+                                        <td>thành toán</td>
+                                        <td>trạng thái </td>
+                                        <td>tổng giá trị </td>
+                                        <td>tháo tác</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%list.map((v)=>{%>
+                                        <td>
+                                            <%=v.id%>
+                                        </td>
+                                        <td>
+                                            <%=v.createday%>
+                                        </td>
+                                        <td>
+                                            <%=v.payS%>
+                                        </td>
+                                        <td>
+                                            <%=v.shipS%>
+                                        </td>
+                                        <td class="M">
+                                            <%= v.totolmoney%>
+                                        </td>
+                                        <td>
+                                            <a href="<%=ip%>admin/orderbill/<%=v.id%>">chi tiết</a>
+                                        </td>
+                                        <%})%>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+    </body>
+    <script type="text/javascript" src="<%=ip%>static/js/action.js"></script>
+    <script defer>
+        var p = document.querySelectorAll(".M");
+        p.forEach((v) => {
+            console.log(v);
+            v.innerHTML = convertMoney(v.innerHTML.trim());
+        });
+    </script>
+
+</html>

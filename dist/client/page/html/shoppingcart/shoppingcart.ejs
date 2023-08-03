@@ -1,0 +1,124 @@
+<%- include('../../css.ejs')%>
+
+    <body>
+        <%- include('../../header.ejs')%>
+            <div class="container">
+                <div class="row bg-light my-3">
+                    <div class="col-9">
+                        <h2 class="text-danger ">
+                            Giỏ hàng
+                        </h2>
+                    </div>
+                </div>
+                <div class="row bg-light">
+                    <table class="col-9 table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ảnh</th>
+                                <th scope="col">Đơn Giá</th>
+                                <th scope="col">Số lượng mua</th>
+                                <th scope="col">Số lượng trong kho</th>
+                                <th scope="col">Số Tiền</th>
+                                <th scope="col">Thào tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <form action="<%ip%>shoppingcart/order" method="post">
+                                <input type="hidden" name="cart" value="<%=cart%>" id="">
+                                <% list.forEach((v,i)=> {%>
+                                    <tr class="M<%=i%>">
+                                        <th scope="row">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-3">
+                                                        <img id="avatar" style="width: 100px; height: auto;"
+                                                            src="<%=ip%>static/imageProduct/<%=v.image%>" alt=""
+                                                            srcset="">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <%=v.nameChildProduct%>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <td>
+                                            <%=v.price%>
+                                        </td>
+                                        <td>
+                                            <input type="hidden" value="<%=v.idChildProduct%>" name="id[<%=i%>]">
+                                            <input type="number" value="1" name="quantity[<%=i%>]">
+                                        </td>
+                                        <td>
+                                            <%= v.amount%>
+                                        </td>
+                                        <td>
+                                            <%=v.price%>
+                                        </td>
+                                        <td>
+                                            <div onclick="DelChildPro('M<%=i%>','<%=v.idChildProduct%>')"
+                                                class="btn btn-primary">Xóa</div>
+                                        </td>
+                                    </tr>
+                                    <%})%>
+                                        <tr>
+                                            <td colspan="2" class="text-center">Địa chỉ</td>
+                                            <td colspan="3">
+                                                <input type="text" class="w-100" required value="<%=infor.address%>">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="text-center">số điện thoại</td>
+                                            <td colspan="3">
+                                                <input type="text" class="w-100" required
+                                                    value="<%=infor.numberPhone%>">
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3"></td>
+                                            <td colspan="4">
+                                                <button>Mua hàng</button>
+                                            </td>
+                                        </tr>
+                            </form>
+                        </tbody>
+                    </table>
+                    </di>
+                </div>
+    </body>
+    <script type="text/javascript" src="<%=ip%>static/js/action.js"></script>
+    <script>
+        function DelChildPro(nameClass, id) {
+            if (!ket()) {
+                return
+            }
+            fetchPostUrl("<%=ip%>shoppingcart/del", { cart: "<%=cart%>", id: id }, (data) => {
+                if (!data.err) {
+                    alert(data.mess)
+                    document.querySelector(`.${nameClass}`).remove()
+                }
+            })
+
+        }
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((d) => {
+                console.log(d.coords);
+            }, (error) => {
+                // switch (error.code) {
+
+                //     case error.PERMISSION_DENIED:
+                //         alert("User denied the request for Geolocation.")
+                //         break;
+                //     case error.POSITION_UNAVAILABLE:
+                //         alert("Location information is unavailable.")
+                //         break;
+                //     case error.TIMEOUT:
+                //         alert("The request to get user location timed out.")
+                //         break;
+                //     case error.UNKNOWN_ERROR:
+                //         alert("An unknown error occurred.")
+                //         break;
+                // }
+            });
+        }
+    </script>

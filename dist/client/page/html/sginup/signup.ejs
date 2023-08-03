@@ -1,0 +1,46 @@
+<%- include('../../css.ejs')%>
+    <body>
+        <%- include('../../header.ejs')%>
+            <div class="container">
+                <div class="row justify-content-center">
+
+                    <form action="" class="col-lg-6 my-5" method="post" enctype="application/x-www-form-urlencoded">
+                        <h1 class="text-center my-5">
+                            Đăng ký
+                        </h1>
+                        <input type="hidden" name="crt" value="<%=crt%>">
+                        <div class="form-group my-2">
+                            <label for="account">Email address</label>
+                            <input type="email" required name="account" class="form-control" id="account"
+                                aria-describedby="emailHelp" placeholder="Enter email">
+                        </div>
+                        <div class="form-group my-2">
+                            <label for="password">mật khẩu</label>
+                            <input type="password" name="password" required class="form-control" id="password"
+                                placeholder="Password">
+                        </div>
+                        <div class="form-group my-2">
+                            <label for="password2">nhập lại mật khẩu</label>
+                            <input type="password" name="password2" required class="form-control" id="password2"
+                                placeholder="Password">
+                        </div>
+
+                        <div class="form-group my-2">
+                            <label for="phonenumber">nhập số điện thoại</label>
+                            <input type="text" required value="0348281129" name="phonenumber" class="form-control"
+                                id="phonenumber" placeholder="số điện thoại">
+                        </div>
+                        <div class="form-group my-2">
+                            <label for="address">địa chỉ</label>
+                            <input type="text" required value="Việt Nam" name="address" class="form-control"
+                                id="address" placeholder="địa chỉ nhà">
+                        </div>
+                        <button class="btn btn-primary">Đăng ký</button>
+                    </form>
+                </div>
+            </div>
+            <%- include('../../footer.ejs')%>
+    </body>
+
+    </html>
+    <script type="text/javascript" src="<%=ip%>static/js/action.js"></script>
