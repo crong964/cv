@@ -16,7 +16,7 @@ exports.con_mysql2 = mysql2_1.default.createPool(config);
 //   host: "store-huy91027-8633.aivencloud.com",
 //   port: 18654,
 //   user: "avnadmin",
-//   password: "AVNS_ZLca5u9xY4FkPG2sCTK",
+//   
 //   database:""
 // }
 exports.con_mysql2.getConnection((err, conc) => {

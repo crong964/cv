@@ -26,7 +26,7 @@ export var vn_location_mysql2 = mysql2.createPool(config1)
 //   host: "store-huy91027-8633.aivencloud.com",
 //   port: 18654,
 //   user: "avnadmin",
-//   password: "AVNS_ZLca5u9xY4FkPG2sCTK",
+//   
 //   database:""
 // }
 
