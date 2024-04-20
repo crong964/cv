@@ -12,13 +12,7 @@ var config = {
     password: "",
 };
 exports.con_mysql2 = mysql2_1.default.createPool(config);
-// {
-//   host: "store-huy91027-8633.aivencloud.com",
-//   port: 18654,
-//   user: "avnadmin",
-//   
-//   database:""
-// }
+
 exports.con_mysql2.getConnection((err, conc) => {
     if (err) {
         console.log(err);

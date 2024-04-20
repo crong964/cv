@@ -22,13 +22,7 @@ var config1: url = {
 };
 var con_mysql2 = mysql2.createPool(config);
 export var vn_location_mysql2 = mysql2.createPool(config1)
-// {
-//   host: "store-huy91027-8633.aivencloud.com",
-//   port: 18654,
-//   user: "avnadmin",
-//   
-//   database:""
-// }
+
 
 con_mysql2.getConnection((err, conc) => {
   if (err) {
