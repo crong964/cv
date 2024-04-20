@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AddAccountUserDB = exports.GetAccountUserByAccDB = exports.GetAccountUserByAccAndPassDB = void 0;
+exports.GetAccountUserByIdDB = exports.GetAllAccountUserDB = exports.AddAccountUserDB = exports.GetAccountUserByAccDB = exports.GetAccountUserByAccAndPassDB = void 0;
 const configMySQL_1 = require("./configMySQL");
 function GetAccountUserByAccAndPassDB(account, password) {
     return new Promise((exc, rej) => {
@@ -38,3 +38,27 @@ function AddAccountUserDB(account, password, id) {
     });
 }
 exports.AddAccountUserDB = AddAccountUserDB;
+function GetAllAccountUserDB() {
+    return new Promise((exc, rej) => {
+        var sql = `SELECT * FROM accountuser `;
+        configMySQL_1.con_mysql2.query(sql, (err, res, fiedls) => {
+            if (err) {
+                rej(err);
+            }
+            exc(res);
+        });
+    });
+}
+exports.GetAllAccountUserDB = GetAllAccountUserDB;
+function GetAccountUserByIdDB(userid) {
+    return new Promise((exc, rej) => {
+        var sql = `SELECT * FROM accountuser WHERE idUser=?`;
+        configMySQL_1.con_mysql2.query(sql, [userid], (err, res, fiedls) => {
+            if (err) {
+                rej(err);
+            }
+            exc(res);
+        });
+    });
+}
+exports.GetAccountUserByIdDB = GetAccountUserByIdDB;

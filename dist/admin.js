@@ -26,9 +26,11 @@ const importBill_1 = __importDefault(require("./server/route/importBill"));
 const containImportBill_1 = __importDefault(require("./server/route/containImportBill"));
 const importedBill_1 = __importDefault(require("./server/route/importedBill"));
 const containImportedBill_1 = __importDefault(require("./server/route/containImportedBill"));
-const category_1 = __importDefault(require("./server/route/category"));
+const bigcategory_1 = __importDefault(require("./server/route/bigcategory"));
+const smallcategory_1 = __importDefault(require("./server/route/smallcategory"));
 const ProductController_1 = __importDefault(require("./controller/ProductController"));
-const containImportBill_2 = __importDefault(require("./server/route/containImportBill"));
+const orderbill_1 = __importDefault(require("./server/route/orderbill"));
+const inforuser_1 = __importDefault(require("./server/route/inforuser"));
 const product_2 = __importDefault(require("./client/route/product"));
 const account_1 = __importDefault(require("./client/route/account"));
 const childproduct_1 = __importDefault(require("./client/route/childproduct"));
@@ -36,8 +38,10 @@ const client_1 = require("./middleware/client");
 const BigcategoryController_1 = __importDefault(require("./controller/BigcategoryController"));
 const sercurity_1 = __importDefault(require("./lib/sercurity"));
 const shoppingcart_1 = __importDefault(require("./client/route/shoppingcart"));
-const orderbill_1 = __importDefault(require("./client/route/orderbill"));
-const orderbill_2 = __importDefault(require("./server/route/orderbill"));
+const orderbill_2 = __importDefault(require("./client/route/orderbill"));
+const client_2 = require("./lib/client");
+const payinvoice_1 = __importDefault(require("./client/route/payinvoice"));
+const user_1 = __importDefault(require("./client/route/user"));
 exports.ip = {
     address: "",
     path: __dirname,
@@ -62,9 +66,17 @@ app.get("/", (0, client_1.AuthorOrUnauthor)(), (req, res) => __awaiter(void 0, v
     var pa = path_1.default.join(__dirname, "/client/page/trangchu.ejs");
     var t = req.body;
     var listBigCate = yield BigcategoryController_1.default.GetAllBigcategory();
+    var ls = listBigCate.map((v) => __awaiter(void 0, void 0, void 0, function* () {
+        var list;
+        if (v.idBigCategory != undefined) {
+            list = yield ProductController_1.default.GetAllProductByBigCategary(v.idBigCategory + "");
+        }
+        return list;
+    }));
+    var c = yield Promise.all(ls);
     var s = JSON.stringify(sercurity_1.default.CreateSign(14));
     var crt = Buffer.from(s).toString("base64url");
-    res.render(pa, { ip: exports.ip.address, name: t.nameUserInSerVer, crt, listBigCate });
+    (0, client_2.RenderHtmlFinal)(req, res, pa, { crt, listBigCate, c });
 }));
 app.use("/login", login_1.default);
 app.use("/admin/product", product_1.default);
@@ -74,14 +86,18 @@ app.use("/admin/imPortBill", importBill_1.default);
 app.use("/admin/importedBill", importedBill_1.default);
 app.use("/admin/containImportBill", containImportBill_1.default);
 app.use("/admin/containImportedBill", containImportedBill_1.default);
-app.use("/admin/category", category_1.default);
-app.use('/admin/orderbill', orderbill_2.default);
-app.use("/test", containImportBill_2.default);
+app.use("/admin/category", bigcategory_1.default);
+app.use("/admin/smallcategory", smallcategory_1.default);
+app.use('/admin/orderbill', orderbill_1.default);
+app.use('/admin/inforuser', inforuser_1.default);
+app.use("/test", containImportBill_1.default);
 app.use("/product", product_2.default);
 app.use("/account", account_1.default);
 app.use("/childproduct", childproduct_1.default);
 app.use("/shoppingcart", shoppingcart_1.default);
-app.use('/orderbill', orderbill_1.default);
+app.use('/orderbill', orderbill_2.default);
+app.use("/user", user_1.default);
+app.use("/vnpay", payinvoice_1.default);
 app.listen(1000, () => {
     dns_1.default.lookupService("127.0.0.1", 1000, (err, hostname, se) => __awaiter(void 0, void 0, void 0, function* () {
         dns_1.default.lookup(hostname, { family: 4 }, (err, add, family) => {
@@ -93,3 +109,13 @@ app.listen(1000, () => {
     }));
 });
 exports.default = exports.ip;
+// import webpack from 'webpack'
+// webpack(
+//   [
+//     { entry: join(__dirname, 'client/page/js/map.js'), output: { filename: 'bundle1.js', path: join(__dirname, 'client/page/js/') } },
+//     { entry: join(__dirname, 'client/page/js/client.js'), output: { filename: 'client.bundle.js', path: join(__dirname, 'client/page/js/') } },
+//   ],
+//   (err, stats) => {
+//     console.log(__dirname);
+//   }
+// );

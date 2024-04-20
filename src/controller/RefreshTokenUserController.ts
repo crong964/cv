@@ -27,8 +27,6 @@ class RefreshTokenUserController {
 
     }
     async GetRefreshTokenUser(userId: number, refreshtoken: string) {
-        console.log();
-        
         var v
         try {
             var ls = await GetRefreshTokenUserDB(userId, refreshtoken) as RowDataPacket[]

@@ -28,6 +28,13 @@
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
                                 <tr>
+                                    <td colspan="7">
+                                        <a href="<%=ip%>admin/imPortBill" class="btn btn-primary">tất cả</a>
+                                        <a href="<%=ip%>admin/imPortBill?status=1" class="btn btn-primary">hòa thành</a>
+                                        <a href="<%=ip%>admin/imPortBill?status=0" class="btn btn-primary">chưa hòa thành</a>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <th>Mã Hóa đơn</th>
                                     <th>Mã người tạo</th>
                                     <th>Ngày Tạo</th>
@@ -38,6 +45,7 @@
                                 </tr>
                             </thead>
                             <tbody class="tabledata">
+
                                 <% for (let i=0; i < list.length; i++) { const element=list[i]; %>
                                     <tr class="text-base">
                                         <td>
@@ -56,10 +64,13 @@
                                             <%=element.supplier%>
                                         </td>
                                         <td>
-                                            <%=element.status%>
+                                            <button class="S-<%=element.status%>">
+                                                <%=s[element.status]%>
+                                            </button>
                                         </td>
                                         <td>
-                                            <a href="<%=ip%>admin/containImportBill/<%=element.idImportBill%>" class="product btn btn-primary">
+                                            <a href="<%=ip%>admin/containImportBill/<%=element.idImportBill%>"
+                                                class="product btn btn-primary">
                                                 Xem chi tiết</a>
                                             <button class="product btn btn-primary" onclick="RemoveBill(1685265279276)">
                                                 xóa hóa đơn</button>
@@ -70,7 +81,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div> 
+                </div>
         </div>
 </body>
 <script defer type="text/javascript" src="<%=ip%>static/js/action.js"></script>

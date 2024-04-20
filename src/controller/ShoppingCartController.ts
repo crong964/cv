@@ -10,7 +10,12 @@ class ShoppingCartController {
     async InsertProductInCart(idChildPro: string, idUser: number) {
         var check
         if (await this.Has(idChildPro, idUser) == false) {
-            check = await InsertProductInCartDB(idChildPro, idUser) as ResultSetHeader
+            try {
+                check = await InsertProductInCartDB(idChildPro, idUser) as ResultSetHeader
+            } catch (error) {
+                check=undefined
+                err('InsertProductInCart ShoppingCartController', error )
+            }
         }
         return check
     }

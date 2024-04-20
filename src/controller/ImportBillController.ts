@@ -3,7 +3,8 @@ import {
   GetAllImportBillDB,
   GetImportBillByIdDB,
   InsertImportBillDB,
-  RemoveBill
+  RemoveBill,
+  UpdateStatusDB
 } from "../database/ImportBillDB";
 import { err } from "../lib/lib";
 import ImportBill from "../model/ImportBill";
@@ -59,9 +60,9 @@ class ImportBillController {
       });
     return temp;
   }
-  async InsertImportBill(idImportBill: string, idForUser: number,createdDay:string,finishDay:string,supplier:string) {
+  async InsertImportBill(idImportBill: string, idForUser: number, createdDay: string, finishDay: string, supplier: string) {
     var check = false;
-    await InsertImportBillDB(idImportBill,idForUser,createdDay,finishDay,supplier)
+    await InsertImportBillDB(idImportBill, idForUser, createdDay, finishDay, supplier)
       .then((v) => {
         check = true;
       })
@@ -70,36 +71,46 @@ class ImportBillController {
       });
     return check;
   }
-  async GetAllImportBill() {
+  async GetAllImportBill(pa: any) {
+    pa.status = pa.status || ""
     var list: ImportBill[] = [];
-    await GetAllImportBillDB()
-      .then((v: any) => {
-        for (let i = 0; i < v.length; i++) {
-          const element = v[i];
-          let importBill = new ImportBill();
-          importBill.setAll(element);
-          if (importBill.idImportBill) {
-            ImportBillController.listImportBill.set(
-              importBill.idImportBill,
-              importBill
-            );
-            list.push(importBill);
-          }
+    try {
+      var v = await GetAllImportBillDB(pa) as []
+      for (let i = 0; i < v.length; i++) {
+        const element = v[i];
+        let importBill = new ImportBill();
+        importBill.setAll(element);
+        if (importBill.idImportBill) {
+          ImportBillController.listImportBill.set(
+            importBill.idImportBill,
+            importBill
+          );
+          list.push(importBill);
         }
-      })
-      .catch((v) => {
-        err("GetAllImportBill ImportBillController", v);
-      });
+      }
+    } catch (error) {
+      err("GetAllImportBill ImportBillController", error);
+    }
     return list;
   }
   async RemoveBill(idImportBill: string) {
     var check
-   await RemoveBill(idImportBill).catch((v) => {
-      err("RemoveBill ImportBillController", v)
-    })
-      .then((v) => {
-        check = v as ResultSetHeader
-      })
+    try {
+      check = await RemoveBill(idImportBill) as ResultSetHeader
+      ImportBillController.listImportBill.delete(idImportBill)
+    } catch (error) {
+      err("RemoveBill ImportBillController", error)
+    }
+    return check
+  }
+  async UpdateStatus(idImportBill: string, status: number) {
+    var check
+    try {
+      check = await UpdateStatusDB(idImportBill, status) as ResultSetHeader
+      ImportBillController.listImportBill.delete(idImportBill)
+    } catch (error) {
+      err("UpdateStatus ImportBillController", error)
+    }
     return check
   }
 }

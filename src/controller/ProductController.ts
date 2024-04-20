@@ -65,7 +65,7 @@ class ProductController {
         check = true;
         var tem = ProductController.ListProduct.get(idProduct);
         if (tem && tem.amount != undefined) {
-          tem.amount +=parseInt(quantity+"");
+          tem.amount += parseInt(quantity + "");
         }
       })
       .catch((v) => {
@@ -82,7 +82,7 @@ class ProductController {
         check = true;
         var tem = ProductController.ListProduct.get(idProduct);
         if (tem != undefined && tem.amount != undefined) {
-          tem.amount +=parseInt(quantity+"");
+          tem.amount += parseInt(quantity + "");
         }
       })
       .catch((v) => {
@@ -92,9 +92,13 @@ class ProductController {
     return check;
   }
   async AddProduct(namePro: string, Price: string, ImportPrice: string, idBigCategory: string, idSmallCategory: string, image: string, bt: string) {
-    var check = (await AddProductDB(namePro, Price, ImportPrice, idBigCategory, idSmallCategory, image, bt)) as ResultSetHeader;
-    check.serverStatus;
-    return check.insertId;
+    var check
+    try {
+      check = (await AddProductDB(namePro, Price, ImportPrice, idBigCategory, idSmallCategory, image, bt)) as ResultSetHeader;
+    } catch (error) {
+      err("AddProduct ProductController", error);
+    }
+    return check
   }
   async GetProduct(id: number) {
     var list, product;
@@ -102,8 +106,7 @@ class ProductController {
       list = (await GetProductDB(id)) as RowDataPacket[];
     } catch (error) {
       list = undefined;
-      err("GetProduct ProductController", "");
-      console.log(error);
+      err("GetProduct ProductController", error);
     }
     if (list && list[0]) {
       product = new Product();

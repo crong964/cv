@@ -7,6 +7,8 @@ import ProductController from "../../controller/ProductController";
 import { vali } from "../../lib/lib";
 import path from "path";
 import ip from "../../admin";
+import { RenderHtmlFinal_AD } from "../../lib/admin";
+import sercurity from "../../lib/sercurity";
 const importedBill = Router();
 interface childpro {
   idChildPro: string;
@@ -47,8 +49,7 @@ importedBill.get("/:idImportedBill", async (req, res) => {
 
 
   var pa = path.join(ip.path, "/server/page/html/imported_product_table.ejs")
-  res.render(pa, { list: f[0], importedBill: f[1], ip: ip.address })
-
+  RenderHtmlFinal_AD(req, res, pa, { list: f[0], importedBill: f[1] })
 });
 importedBill.post("/addNewImportedBill", async (req: Request, res: Response) => {
   var datapost: data = req.body;

@@ -50,11 +50,15 @@ function formatDate(d: string | undefined) {
     return;
   }
   var p = new Date(d);
-  return `${p.getDate()}-${
-    p.getMonth() + 1
-  }-${p.getFullYear()} ${p.getHours()}:${p.getMinutes()}:${p.getSeconds()}`;
+  return `${p.getDate()}-${p.getMonth() + 1
+    }-${p.getFullYear()} ${p.getHours()}:${p.getMinutes()}:${p.getSeconds()}`;
 }
 function ket() {
   return confirm("bạn muốn thực hiện không")
 }
 
+
+var p = document.querySelectorAll(".M");
+p.forEach((v: Element) => {
+  v.innerHTML = convertMoney(v.innerHTML.trim() as any) as any
+});

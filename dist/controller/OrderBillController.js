@@ -99,9 +99,11 @@ class OrderBillController {
     }
     GetAllLimit(limit) {
         return __awaiter(this, void 0, void 0, function* () {
-            var s = { start: 0, count: 10 };
+            var s = { start: 0, count: 10, fiel: "pay", va: "" };
             s.start = (limit === null || limit === void 0 ? void 0 : limit.start) || 0;
             s.count = (limit === null || limit === void 0 ? void 0 : limit.count) || 10;
+            s.va = (limit === null || limit === void 0 ? void 0 : limit.va) || "";
+            s.fiel = (limit === null || limit === void 0 ? void 0 : limit.fiel) || "pay";
             var list = [];
             try {
                 var t = yield (0, OrderBillDB_1.GetAllLimitDB)(s);
@@ -116,6 +118,30 @@ class OrderBillController {
                 (0, lib_1.err)("GetAllLimit OrderBillController", error);
             }
             return list;
+        });
+    }
+    UpdateShip(id, ship) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var check;
+            try {
+                check = (yield (0, OrderBillDB_1.UpdateShipDB)(id, ship));
+            }
+            catch (error) {
+                (0, lib_1.err)("UpdateShip OrderBillController", error);
+            }
+            return check;
+        });
+    }
+    UpdatePay(id, pay) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var check;
+            try {
+                check = (yield (0, OrderBillDB_1.UpdatePayDB)(id, pay));
+            }
+            catch (error) {
+                (0, lib_1.err)("UpdateShip OrderBillController", error);
+            }
+            return check;
         });
     }
 }

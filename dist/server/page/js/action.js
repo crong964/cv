@@ -54,3 +54,7 @@ function formatDate(d) {
 function ket() {
     return confirm("bạn muốn thực hiện không");
 }
+var p = document.querySelectorAll(".M");
+p.forEach((v) => {
+    v.innerHTML = convertMoney(v.innerHTML.trim());
+});

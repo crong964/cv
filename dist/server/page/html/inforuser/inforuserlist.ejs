@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../css')%>
+
+    <body>
+        <%- include('../header')%>
+            <div class="row w-100">
+                <%- include('../navi')%>
+                    <div class="col-md-9 ms-sm-auto col-lg-10 p-md-4">
+                        <h2 class="text-center">Danh sách khách hàng</h2>
+                        <table class="table bg-white mt-4 rounded">
+                            <thead>
+                                <tr>
+                                    <td>id</td>
+                                    <td>name</td>
+                                    <td>numberPhone</td>
+                                    <td>address</td>
+                                    <td>trạng thái</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%ls.forEach((v)=> {%>
+                                    <tr>
+                                        <td>
+                                            <%=v.id%>
+                                        </td>
+                                        <td>
+                                            <%=v.name%>
+                                        </td>
+                                        <td>
+                                            <%=v.numberPhone%>
+                                        </td>
+                                        <td>
+                                            <%=v.address%>
+                                        </td>
+                                        <td>
+                                            <div class="S-Infor-<%=v.status%>">
+                                                <%=statusS[v.status]%>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    
+                                    <% })%>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+    </body>
+
+</html>

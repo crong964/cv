@@ -1,5 +1,5 @@
 import mysql from "mysql";
-import config, { con_mysql2 } from "./configMySQL";
+import con_mysql2 from "./configMySQL";
 
 export function GetAllChildProductByIdProductDB(idProduct: number) {
   return new Promise((res, rej) => {
@@ -29,21 +29,14 @@ export function UpdateAmountChildProductDB(
   quantity: number
 ) {
   return new Promise((res, rej) => {
-    var con = mysql.createConnection(config);
-    con.connect((err) => {
+    var sql = `UPDATE childproduct
+      SET amount= amount + ?
+      WHERE idChildProduct= ? `;
+    con_mysql2.query(sql, [quantity, idChildProduct], (err, result, fiels) => {
       if (err) {
         rej(err);
       }
-      var sql = `UPDATE childproduct
-      SET amount= amount + ?
-      WHERE idChildProduct= ? `;
-      con.query(sql, [quantity, idChildProduct], (err, result, fiels) => {
-        if (err) {
-          rej(err);
-        }
-        con.end();
-        res(result);
-      });
+      res(result);
     });
   });
 }

@@ -1,4 +1,4 @@
-import { con_mysql2 } from "./configMySQL";
+import con_mysql2  from "./configMySQL";
 
 export function AddRefreshTokenUserDB(idUser: string, refreshtoken: string) {
     return new Promise((exc, rej) => {

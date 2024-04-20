@@ -7,6 +7,10 @@ import { render, vali } from "../../lib/lib";
 import ip from "../../admin";
 import path from "path";
 import { version } from "punycode";
+import { RenderHtmlFinal_AD } from "../../lib/admin";
+import ImportBill from "../../model/ImportBill";
+import { verifi_post } from "../../middleware/client";
+import ImportedBillController from "../../controller/ImportedBillController";
 interface ChildProuct {
   idChildProduct: string;
   amount: number;
@@ -22,8 +26,12 @@ const imPortBill = Router();
 imPortBill.use(vali);
 
 imPortBill.get("/", async (req: Request, res: Response) => {
-  var list = await ImportBillController.GetAllImportBill();
-  res.render(path.join(ip.path, "server/page/html/importbill/importBillList.ejs"), { ip: ip.address, list: list })
+  var status = req.query.status || ""
+  var list = await ImportBillController.GetAllImportBill({status});
+  var pa = path.join(ip.path, "server/page/html/importbill/importBillList.ejs")
+
+
+  RenderHtmlFinal_AD(req, res, pa, { list, s: ImportBill.statusS })
 });
 
 imPortBill.post("/", async (req: Request, res: Response) => {
@@ -101,7 +109,7 @@ imPortBill.post("/", async (req: Request, res: Response) => {
   res.json({ mess: "ok" });
 });
 imPortBill.post("/listImportBill", async (req, res) => {
-  var list = await ImportBillController.GetAllImportBill();
+  var list = await ImportBillController.GetAllImportBill({});
   res.json(list);
 });
 imPortBill.post("/removeBill", async (req, res) => {
@@ -116,4 +124,26 @@ imPortBill.post("/removeBill", async (req, res) => {
 
 });
 
+imPortBill.post("/UpdateImportBillStatus", verifi_post({ lenght: 10, va: "srt" }), async (req, res) => {
+  var id = req.body.id
+  var status = parseInt(req.body.status)
+  var list = await ContainImportBillController.GetAllByIdImportBill(id)
+  for (let i = 0; i < list.length; i++) {
+    const element = list[i];
+    if (element.amount != element.importedAmount) {
+      res.redirect(`/admin/containImportBill/${id}?tb=chuanhapdu`)
+      return
+    }
+  }
+  var l = await ImportedBillController.GetAllImportedBillById(id)
+  for (let i = 0; i < l.length; i++) {
+    const element = l[i];
+    if (element.status === 'chưa thanh toán') {
+      res.redirect(`/admin/containImportBill/${id}?tb=chuanhapdu`)
+      return
+    }
+  }
+  var check = await ImportBillController.UpdateStatus(id, 1)
+  res.redirect(`/admin/containImportBill/${id}?tb=thanhcong`)
+})
 export default imPortBill;

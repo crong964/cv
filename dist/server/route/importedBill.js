@@ -21,6 +21,7 @@ const ProductController_1 = __importDefault(require("../../controller/ProductCon
 const lib_1 = require("../../lib/lib");
 const path_1 = __importDefault(require("path"));
 const admin_1 = __importDefault(require("../../admin"));
+const admin_2 = require("../../lib/admin");
 const importedBill = (0, express_1.Router)();
 importedBill.use(lib_1.vali);
 importedBill.get("/:idImportedBill", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -40,7 +41,7 @@ importedBill.get("/:idImportedBill", (req, res) => __awaiter(void 0, void 0, voi
         ImportedBillController_1.default.GetImportedBillById(idImportedBill)
     ]);
     var pa = path_1.default.join(admin_1.default.path, "/server/page/html/imported_product_table.ejs");
-    res.render(pa, { list: f[0], importedBill: f[1], ip: admin_1.default.address });
+    (0, admin_2.RenderHtmlFinal_AD)(req, res, pa, { list: f[0], importedBill: f[1] });
 }));
 importedBill.post("/addNewImportedBill", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var datapost = req.body;

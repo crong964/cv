@@ -1,7 +1,14 @@
 import { ResultSetHeader } from "mysql2";
-import { AddDB, GetAllByUseridDB, GetAllLimiByUserIdDB, GetAllLimitDB, GetOrderBillDB, UpdateMoneyOrderBillDB } from "../database/OrderBillDB";
+import { AddDB, GetAllByUseridDB, GetAllLimiByUserIdDB, GetAllLimitDB, GetOrderBillDB, UpdateMoneyOrderBillDB, UpdatePayDB, UpdateShipDB } from "../database/OrderBillDB";
 import { GrapSql, Limit, err, statusBill } from "../lib/lib";
 import OrderBill from "../model/OrderBill";
+
+export interface GrapOrderBill {
+    start: number
+    count: number
+    fiel: string
+    va: string
+}
 
 class OrderBillController {
     constructor() {
@@ -71,11 +78,12 @@ class OrderBillController {
         }
         return list
     }
-    async GetAllLimit(limit?: Limit) {
-        var s: Limit = { start: 0, count: 10 }
+    async GetAllLimit(limit?: GrapOrderBill) {
+        var s: GrapOrderBill = { start: 0, count: 10, fiel: "pay", va: "" }
         s.start = limit?.start || 0
         s.count = limit?.count || 10
-
+        s.va = limit?.va || ""
+        s.fiel = limit?.fiel || "pay"
         var list: OrderBill[] = []
         try {
             var t = await GetAllLimitDB(s) as []
@@ -90,6 +98,25 @@ class OrderBillController {
         }
         return list
     }
+    async UpdateShip(id: string, ship: number) {
+        var check
+        try {
+            check = await UpdateShipDB(id, ship) as ResultSetHeader
+        } catch (error) {
+            err("UpdateShip OrderBillController", error)
+        }
+        return check
+    }
+    async UpdatePay(id: string, pay: number) {
+        var check
+        try {
+            check = await UpdatePayDB(id, pay) as ResultSetHeader
+        } catch (error) {
+            err("UpdateShip OrderBillController", error)
+        }
+        return check
+    }
+
 }
 
 export default new OrderBillController()

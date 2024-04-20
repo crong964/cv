@@ -5,6 +5,7 @@ import ip from "../../admin";
 import ImportBillController from "../../controller/ImportBillController";
 import ContainImportBillController from "../../controller/ContainImportBillController";
 import ImportedBillController from "../../controller/ImportedBillController";
+import sercurity from "../../lib/sercurity";
 
 const containImportBill = Router()
 
@@ -12,7 +13,7 @@ interface search {
     idImportBill: string | undefined;
 }
 containImportBill.get("/:idImportBill", async (req, res) => {
-    var pa = join(ip.path, "/server/page/html/containImportBill/allchildProInImportBill.ejs")
+
     const { idImportBill } = req.params as unknown as search;
 
     if (idImportBill == undefined) {
@@ -39,14 +40,17 @@ containImportBill.get("/:idImportBill", async (req, res) => {
         }
 
     }
-   
+    var srt = sercurity.CreateBase64Url(JSON.stringify(sercurity.CreateSign(10)))
+    var pa = join(ip.path, "/server/page/html/containImportBill/allchildProInImportBill.ejs")
+    
     res.render(pa, {
         dem: dem,
         idImportedBill: new Date().getTime(),
         ip: ip.address,
         bill: list[0],
         listImportChildPro: list[1],
-        listImportedBill: list[2]
+        listImportedBill: list[2],
+        srt: srt
     })
 })
 

@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import path from "path";
-import { vali } from "../../lib/lib";
+import { err, vali } from "../../lib/lib";
 import productController from "../../controller/ProductController";
 import childProductController from "../../controller/ChildProductController";
 import ip from "../../admin";
@@ -11,6 +11,7 @@ import { unlink } from "fs/promises";
 import { join } from "path/win32";
 import ProductController from "../../controller/ProductController";
 import { copyFile } from "fs/promises";
+import { ResultSetHeader } from "mysql2";
 
 interface post {
   namePro: string
@@ -68,21 +69,20 @@ product.get("/productadd", async (req: Request, res: Response) => {
 product.post("/productadd", upload, async (req: Request, res: Response) => {
   var post: post = req.body
 
-  console.log(req.body);
-
-
   var files: any = req.files
+
   var listFile: string[] = []
 
 
   var childFiles: Express.Multer.File[] = files["childimage"]
+  var avatar: Express.Multer.File = files['image'][0]
   for (let i = 0; i < childFiles.length; i++) {
     const element = childFiles[i];
     listFile.push(element.filename)
   }
 
 
-  var idProduct: number = 0;
+  var idProduct: ResultSetHeader | undefined;
   var bt: bt = {
     bt1: post.bt1,
     bt2: post.bt2,
@@ -90,7 +90,7 @@ product.post("/productadd", upload, async (req: Request, res: Response) => {
     dsbt2: post.dsbt2,
     listFile: listFile
   }
-  if (req.files) {
+  if (avatar) {
     idProduct = await productController.AddProduct(post.namePro,
       post.Price,
       post.ImportPrice,
@@ -99,6 +99,22 @@ product.post("/productadd", upload, async (req: Request, res: Response) => {
       files["image"][0].filename,
       JSON.stringify(bt))
   }
+  else {
+    for (let i = 0; i < childFiles.length; i++) {
+      const element = childFiles[i];
+      try {
+        var paSrc = join(ip.path, "/public/imageProduct", element.filename)
+        var paDest = join(ip.path, "/deleteFile", element.filename)
+        await copyFile(paSrc, paDest)
+        await unlink(paSrc)
+      } catch (error) {
+        err('C:/Users/PC/Documents/code/doan/src/server/route/product.ts', error)
+      }
+    }
+
+    res.redirect(`${ip.address}admin/product/productadd`);
+    return
+  }
 
 
 
@@ -106,25 +122,35 @@ product.post("/productadd", upload, async (req: Request, res: Response) => {
     let in1 = parseInt(v1)
     let in2 = parseInt(post.v2[i]);
     let bt1 = post.dsbt1[in1]
-    let bt2 = post.dsbt2[in2] ? post.dsbt2[in2] : "";
-    let idChildProduct = `${idProduct}-${in1}`
+    let bt2 = post.dsbt2[in2] || "";
+    let idChildProduct = `${idProduct?.insertId}-${in1}`
 
     if (post.dsbt2.length > 0) {
       idChildProduct += `-${in2}`
     }
     let nameChildProduct =
-      await childProductController.AddChildProduct(idChildProduct, idProduct + "",
+      await childProductController.AddChildProduct(idChildProduct, idProduct?.insertId + "",
         post.namePro + " " + bt2 + " " + bt1,
         post.dsimportPrice[i] + "",
         post.dsPrice[i] + "",
         files["childimage"][in1].filename)
 
-
+    if (nameChildProduct == undefined) {
+      var paSrc = join(ip.path, "/public/imageProduct", files["childimage"][in1].filename)
+      var paDest = join(ip.path, "/deleteFile", files["childimage"][in1].filename)
+      await copyFile(paSrc, paDest)
+      await unlink(paSrc)
+    }
     return nameChildProduct
   })
 
   var checkls = await Promise.all(ls)
-
+  checkls.forEach((v) => {
+    if (v == undefined) {
+      console.log('có lỗi insert ');
+      
+    }
+  })
 
 
   res.redirect(`${ip.address}admin/product/productadd`);

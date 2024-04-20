@@ -16,7 +16,7 @@ exports.AuthorOrUnauthor = exports.CheckUserAuthorization = exports.UserAuthoriz
 const sercurity_1 = __importDefault(require("../lib/sercurity"));
 const admin_1 = __importDefault(require("../admin"));
 const RefreshTokenUserController_1 = __importDefault(require("../controller/RefreshTokenUserController"));
-const InforuserController_1 = __importDefault(require("../controller/InforuserController"));
+const InforUserController_1 = __importDefault(require("../controller/InforUserController"));
 const lib_1 = require("../lib/lib");
 function verifi_post(pass) {
     var d = (pass === null || pass === void 0 ? void 0 : pass.lenght) || 10;
@@ -47,7 +47,7 @@ function UserAuthorization() {
     return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
         if (!(yield CheckUserAuthorization(req, res))) {
             res.status(401);
-            res.redirect(`${admin_1.default.address}`);
+            res.redirect(`${admin_1.default.address}account`);
             return;
         }
         next();
@@ -84,7 +84,7 @@ function AuthorOrUnauthor() {
     return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
         if (yield CheckUserAuthorization(req, res)) {
             req.body.isLogin = true;
-            var temp = yield InforuserController_1.default.GetInforuser(req.cookies['userid']);
+            var temp = yield InforUserController_1.default.GetInforuser(req.cookies['userid']);
             req.body.nameUserInSerVer = temp === null || temp === void 0 ? void 0 : temp.name;
         }
         else {

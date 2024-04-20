@@ -101,9 +101,14 @@ class ProductController {
     }
     AddProduct(namePro, Price, ImportPrice, idBigCategory, idSmallCategory, image, bt) {
         return __awaiter(this, void 0, void 0, function* () {
-            var check = (yield (0, ProductDB_1.AddProductDB)(namePro, Price, ImportPrice, idBigCategory, idSmallCategory, image, bt));
-            check.serverStatus;
-            return check.insertId;
+            var check;
+            try {
+                check = (yield (0, ProductDB_1.AddProductDB)(namePro, Price, ImportPrice, idBigCategory, idSmallCategory, image, bt));
+            }
+            catch (error) {
+                (0, lib_1.err)("AddProduct ProductController", error);
+            }
+            return check;
         });
     }
     GetProduct(id) {
@@ -114,8 +119,7 @@ class ProductController {
             }
             catch (error) {
                 list = undefined;
-                (0, lib_1.err)("GetProduct ProductController", "");
-                console.log(error);
+                (0, lib_1.err)("GetProduct ProductController", error);
             }
             if (list && list[0]) {
                 product = new Product_1.default();

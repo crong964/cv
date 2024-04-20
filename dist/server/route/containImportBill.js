@@ -18,9 +18,9 @@ const admin_1 = __importDefault(require("../../admin"));
 const ImportBillController_1 = __importDefault(require("../../controller/ImportBillController"));
 const ContainImportBillController_1 = __importDefault(require("../../controller/ContainImportBillController"));
 const ImportedBillController_1 = __importDefault(require("../../controller/ImportedBillController"));
+const sercurity_1 = __importDefault(require("../../lib/sercurity"));
 const containImportBill = (0, express_1.Router)();
 containImportBill.get("/:idImportBill", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var pa = (0, path_1.join)(admin_1.default.path, "/server/page/html/containImportBill/allchildProInImportBill.ejs");
     const { idImportBill } = req.params;
     if (idImportBill == undefined) {
         res.json({ err: true, mess: "không có bill này" });
@@ -42,13 +42,16 @@ containImportBill.get("/:idImportBill", (req, res) => __awaiter(void 0, void 0, 
             dem += 1;
         }
     }
+    var srt = sercurity_1.default.CreateBase64Url(JSON.stringify(sercurity_1.default.CreateSign(10)));
+    var pa = (0, path_1.join)(admin_1.default.path, "/server/page/html/containImportBill/allchildProInImportBill.ejs");
     res.render(pa, {
         dem: dem,
         idImportedBill: new Date().getTime(),
         ip: admin_1.default.address,
         bill: list[0],
         listImportChildPro: list[1],
-        listImportedBill: list[2]
+        listImportedBill: list[2],
+        srt: srt
     });
 }));
 exports.default = containImportBill;

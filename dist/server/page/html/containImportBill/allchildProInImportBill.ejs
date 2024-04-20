@@ -22,7 +22,7 @@
                 <a class="btn btn-primary" href="#C3">Danh sách hóa đơn nhập hàng</a>
               </div>
               <h2 class="text-center my-3" id="C1">
-                Danh sách sản phậm nhập của hóa đơn
+                Danh sách sản phẩm nhập của hóa đơn
               </h2>
               <div class="border-t-2 flex items-center justify-center my-3 py-2">
                 <label for="idImportBill" class="text-lg">
@@ -30,13 +30,14 @@
                   <span class="font-bold">
                     <%=bill.idImportBill%>
                   </span>
-                </label>
+                </label><br>
                 <label for="idImportBill" class="text-lg">
                   <span class="font-bold">Ngày tạo</span>
                   <span class="font-bold">
                     <%=bill.createdDay %>
                   </span>
                 </label>
+
               </div>
               <table class="table table-hover table-bordered mb-28" id="sampleTable">
                 <thead>
@@ -65,12 +66,29 @@
                     </tr>
                     <%}%>
                 </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="3"></td>
+                    <td>
+                      <%if(bill.status==0){%>
+                        <form action="<%=ip%>admin/imPortBill/UpdateImportBillStatus" method="post">
+                          <input type="hidden" name="id" value="<%=bill.idImportBill%>">
+                          <input type="hidden" name="srt" value="<%=srt%>">
+                          <input type="hidden" name="status" value="1">
+                          <button class="S-<%=bill.status%>">xác nhận hoàn thành</button>
+                        </form>
+                        <%}else{%>
+                          <button class="S-<%=bill.status%>">Hoàn thành</button>
+                          <%}%>
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
               <% if (dem> 0) {%>
                 <form method="post" id="fromFletch" class="mt-5">
-                  <div class="text-center" id="C2">
-                    Danh sách sản phậm sẽ nhập của hóa đơn
-                  </div>
+                  <h3 class="text-center" id="C2">
+                    Danh sách sản phẩm sẽ nhập của hóa đơn
+                  </h3>
                   <div class="border-t-2 flex items-center justify-center my-3 py-2">
                     <label for="idImportBill" class="text-lg">
                       <span class="font-bold">Mã đơn hàng</span>
@@ -153,7 +171,8 @@
                             <%= element.status%>
                           </td>
                           <td>
-                            <a href="<%=ip%>admin/containImportedBill/<%=element.idImportedBill%>" class="product">Xem chi
+                            <a href="<%=ip%>admin/containImportedBill/<%=element.idImportedBill%>" class="product">Xem
+                              chi
                               tiết</a>
                           </td>
                         </tr>

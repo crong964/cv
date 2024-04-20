@@ -5,8 +5,10 @@ import ip from "../../admin"
 import sercurity, { sercurityO } from "../../lib/sercurity"
 import { AuthorOrUnauthor, Login, UserAuthorization, verifi_post } from "../../middleware/client"
 import AccountUserControllder from "../../controller/AccountUserControllder"
-import InforuserController from "../../controller/InforuserController"
+import InforuserController from "../../controller/InforUserController"
 import RefreshTokenUserController from "../../controller/RefreshTokenUserController"
+
+
 
 const account = express()
 interface signupPost {

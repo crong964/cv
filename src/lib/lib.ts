@@ -10,7 +10,7 @@ export function render(res: Response, ip: string, pa: string) {
   });
 }
 export function err(where: string, mess: any) {
-  console.log(`in ${where} class,\\n err: ${mess}`);
+  console.log(`in ${where} class,\\n err: ${JSON.stringify(mess)}`);
 }
 export interface us {
   username: string;

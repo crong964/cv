@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetAllLimitDB = exports.UpdateMoneyOrderBillDB = exports.GetOrderBillDB = exports.GetAllLimiByUserIdDB = exports.GetAllByUseridDB = exports.AddDB = void 0;
+exports.UpdatePayDB = exports.UpdateShipDB = exports.GetAllLimitDB = exports.UpdateMoneyOrderBillDB = exports.GetOrderBillDB = exports.GetAllLimiByUserIdDB = exports.GetAllByUseridDB = exports.AddDB = void 0;
 const configMySQL_1 = require("./configMySQL");
 function AddDB(address, numberphone, userid) {
     return new Promise((exc, rej) => {
@@ -64,8 +64,8 @@ function UpdateMoneyOrderBillDB(totalmoney, idOrder) {
 exports.UpdateMoneyOrderBillDB = UpdateMoneyOrderBillDB;
 function GetAllLimitDB(limit) {
     return new Promise((exc, rej) => {
-        var sql = `SELECT * FROM orderbill limit ?,?`;
-        configMySQL_1.con_mysql2.query(sql, [limit.start, limit.count], (err, res, fields) => {
+        var sql = `SELECT * FROM orderbill Where ${limit.fiel}=? limit ?,?`;
+        configMySQL_1.con_mysql2.query(sql, [limit.va, limit.start, limit.count], (err, res, fields) => {
             if (err) {
                 rej(err);
             }
@@ -74,3 +74,27 @@ function GetAllLimitDB(limit) {
     });
 }
 exports.GetAllLimitDB = GetAllLimitDB;
+function UpdateShipDB(id, ship) {
+    return new Promise((exc, rej) => {
+        var sql = `UPDATE orderbill SET ship=? WHERE id = ? `;
+        configMySQL_1.con_mysql2.query(sql, [ship, id], (err, res, fields) => {
+            if (err) {
+                rej(err);
+            }
+            exc(res);
+        });
+    });
+}
+exports.UpdateShipDB = UpdateShipDB;
+function UpdatePayDB(id, pay) {
+    return new Promise((exc, rej) => {
+        var sql = `UPDATE orderbill SET pay=? WHERE id = ?`;
+        configMySQL_1.con_mysql2.query(sql, [pay, id], (err, res, fields) => {
+            if (err) {
+                rej(err);
+            }
+            exc(res);
+        });
+    });
+}
+exports.UpdatePayDB = UpdatePayDB;

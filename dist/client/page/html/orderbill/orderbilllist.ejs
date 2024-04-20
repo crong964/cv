@@ -1,3 +1,4 @@
+<html>
 <%- include('../../css')%>
 
     <body>
@@ -35,7 +36,7 @@
                                         <tr>
                                             <th scope="col">mã đơn hàng</th>
                                             <th scope="col">ngày tạo</th>
-                                            <th scope="col">gian hàng</th>
+                                            <th scope="col">giao hàng</th>
                                             <th scope="col">thành toán</th>
                                             <th scope="col">tổng tiền</th>
                                             <th scope="col">chi tiết</th>
@@ -50,21 +51,23 @@
                                                 <td>
                                                     <%=v.createday%>
                                                 </td>
-                                                <td>
-                                                    <%=v.shipS%>
+                                                <td class=" p-2">
+                                                    <div class="S-<%=v.ship%>">
+                                                        <%=v.shipS%>
+                                                    </div>
                                                 </td>
-                                                <td>
-                                                    <%=v.payS%>
+                                                <td class=" p-2">
+                                                    <div class="S-<%=v.pay%>">
+                                                        <%=v.payS%>
+                                                    </div>
                                                 </td>
-                                                <td>
+                                                <td class="M">
                                                     <%= v.totolmoney%>
                                                 </td>
                                                 <td>
-                                                    <form action="<%=ip%>orderbill" method="post">
-                                                        <input type="hidden" name="ser" value="<%=ser%>">
-                                                        <input type="hidden" name="id" value="<%=v.id%>">
-                                                        <button class="btn btn-primary">Xem chi tiết</button>
-                                                    </form>
+                                                    <a href="<%=ip%>orderbill/bill?id=<%=v.id%>" class="btn btn-primary">
+                                                        Xem chi tiết
+                                                    </a>
                                                 </td>
                                             </tr>
                                             <%})%>
@@ -81,3 +84,6 @@
 
             <%- include('../../footer.ejs')%>
     </body>
+    <script type="text/javascript" src="<%=ip%>static/js/action.js"></script>
+
+</html>

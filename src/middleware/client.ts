@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import sercurity, { sercurityO } from "../lib/sercurity";
 import ip from "../admin";
 import RefreshTokenUserController from "../controller/RefreshTokenUserController";
-import InforuserController from "../controller/InforuserController";
+import InforuserController from "../controller/InforUserController";
 import { err } from "../lib/lib";
 export interface Login {
     nameUserInSerVer: string | undefined
@@ -41,7 +41,7 @@ export function UserAuthorization() {
     return async (req: Request, res: Response, next: NextFunction) => {
         if (! await CheckUserAuthorization(req, res)) {
             res.status(401)
-            res.redirect(`${ip.address}`)
+            res.redirect(`${ip.address}account`)
             return
         }
         next();

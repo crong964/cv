@@ -8,7 +8,7 @@ const BaseModel_1 = __importDefault(require("./BaseModel"));
 class OrderBill extends BaseModel_1.default {
     constructor() {
         super();
-        this.id = undefined;
+        this.id = 0;
         this.createday = undefined;
         this.ship = 0;
         this.pay = 0;
@@ -18,6 +18,8 @@ class OrderBill extends BaseModel_1.default {
         this.userid = undefined;
         this.shipS = undefined;
         this.payS = undefined;
+        this.lat = 0;
+        this.lng = 0;
     }
     setAll(p) {
         super.setAll(p);
@@ -28,6 +30,6 @@ class OrderBill extends BaseModel_1.default {
         this.payS = OrderBill.paystatus[this.pay];
     }
 }
-OrderBill.paystatus = ["chưa thành toán", "đã thành toán", "thành toán sau"];
-OrderBill.shipmentstatus = ['chưa giao', 'đang giao'];
+OrderBill.paystatus = ["chưa thành toán", "thành toán sau", "đã thành toán", "hoàn lại"];
+OrderBill.shipmentstatus = ['chưa giao', 'đang giao', 'hoàn thành', 'hủy giao',];
 exports.default = OrderBill;

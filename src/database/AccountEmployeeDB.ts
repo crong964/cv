@@ -1,23 +1,15 @@
 import mysql from "mysql";
-import config from "./configMySQL";
 
-export function GetAccount(account: string,password:string) {
-  return new Promise((res, rej) => {
-    var con = mysql.createConnection(config);
+import con_mysql2 from "./configMySQL";
 
-    con.connect((err) => {
-        if (err) {
-            rej(err);
-          }
-      var sql = "SELECT * FROM accountemployee WHERE account=? AND password=?";
-      con.query(sql, [account,password], (err, result, field) => {
-        if (err) {
-          rej(err);
-        }
-        con.end();
-        res(result);
-        
-      });
-    });
-  });
+export function GetAccount(account: string, password: string) {
+  return new Promise((exc, rej) => {
+    var sql = "SELECT * FROM accountemployee WHERE account=? AND password=?";
+    con_mysql2.query(sql, [account, password], (err, res, fiedls) => {
+      if (err) {
+        rej(err)
+      }
+      exc(res)
+    })
+  })
 }

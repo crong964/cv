@@ -38,6 +38,7 @@
                                 </thead>
                                 <tbody>
                                     <%list.map((v)=>{%>
+                                       <tr>
                                         <td>
                                             <%=v.id%>
                                         </td>
@@ -54,8 +55,11 @@
                                             <%= v.totolmoney%>
                                         </td>
                                         <td>
-                                            <a href="<%=ip%>admin/orderbill/<%=v.id%>">chi tiết</a>
+                                            <a class="btn btn-primary" href="<%=ip%>admin/orderbill/billDetail?id=<%=v.id%>">
+                                                chi tiết
+                                            </a>
                                         </td>
+                                       </tr>
                                         <%})%>
                                 </tbody>
                             </table>
@@ -64,12 +68,6 @@
             </div>
     </body>
     <script type="text/javascript" src="<%=ip%>static/js/action.js"></script>
-    <script defer>
-        var p = document.querySelectorAll(".M");
-        p.forEach((v) => {
-            console.log(v);
-            v.innerHTML = convertMoney(v.innerHTML.trim());
-        });
-    </script>
+
 
 </html>

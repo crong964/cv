@@ -1,5 +1,6 @@
+import { GrapOrderBill } from "../controller/OrderBillController";
 import { GrapSql, Limit } from "../lib/lib";
-import { con_mysql2 } from "./configMySQL";
+import con_mysql2  from "./configMySQL";
 
 export function AddDB(address: string, numberphone: string, userid: string) {
     return new Promise((exc, rej) => {
@@ -56,10 +57,34 @@ export function UpdateMoneyOrderBillDB(totalmoney: number, idOrder: string) {
         })
     })
 }
-export function GetAllLimitDB(limit: Limit) {
+export function GetAllLimitDB(limit: GrapOrderBill) {
     return new Promise((exc, rej) => {
-        var sql = `SELECT * FROM orderbill limit ?,?`
-        con_mysql2.query(sql, [limit.start, limit.count], (err, res, fields) => {
+        var sql = `SELECT * FROM orderbill Where ${limit.fiel}=? limit ?,?`
+        con_mysql2.query(sql, [limit.va,limit.start, limit.count], (err, res, fields) => {
+            if (err) {
+                rej(err)
+            }
+            exc(res)
+        })
+    })
+}
+
+export function UpdateShipDB(id: string, ship: number) {
+    return new Promise((exc, rej) => {
+        var sql = `UPDATE orderbill SET ship=? WHERE id = ? `
+        con_mysql2.query(sql, [ship, id], (err, res, fields) => {
+            if (err) {
+                rej(err)
+            }
+            exc(res)
+        })
+    })
+}
+
+export function UpdatePayDB(id: string, pay: number) {
+    return new Promise((exc, rej) => {
+        var sql = `UPDATE orderbill SET pay=? WHERE id = ?`
+        con_mysql2.query(sql, [pay, id], (err, res, fields) => {
             if (err) {
                 rej(err)
             }

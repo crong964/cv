@@ -92,20 +92,21 @@ class ChildProductController {
     }
     DecreaseAmountChildProduct(idChildProduct, quantity) {
         return __awaiter(this, void 0, void 0, function* () {
+            quantity = parseInt(quantity + "");
             quantity *= -1;
             var check = false;
-            yield (0, ChildProductDB_1.UpdateAmountChildProductDB)(idChildProduct, quantity)
-                .then((v) => {
+            try {
+                var s = yield (0, ChildProductDB_1.UpdateAmountChildProductDB)(idChildProduct, quantity);
                 var tem = ChildProductController.listChildProduct.get(idChildProduct + "");
                 if (tem != undefined) {
                     tem.amount += parseInt(quantity + "");
                 }
                 check = true;
-            })
-                .catch((v) => {
-                (0, lib_1.err)("ChildProductController DecreaseAmountChildProduct", v);
+            }
+            catch (error) {
+                (0, lib_1.err)("ChildProductController DecreaseAmountChildProduct", error);
                 check = false;
-            });
+            }
             return check;
         });
     }

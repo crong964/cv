@@ -21,7 +21,7 @@
             </div>
           </div>
           <div class="table-responsive" id="sampleTable">
-            <table class="table table-hover table-bordered">
+            <table class="table table-hover bg-light table-bordered">
               <tr>
                 <td>Mã</td>
                 <td>Tên</td>
@@ -74,13 +74,14 @@
               <% for (let i=0; i < list2.length; i++) { %>
                 <% const element=list2[i];%>
                   <tr>
-                    <form action="<%=ip%>admin/category" onsubmit="return kt()" method="post">
+                    <form action="<%=ip%>admin/smallcategory/update" onsubmit="return kt()" method="post">
                       <td>
                         <%=element.idSmallCategory%>
                       </td>
                       <td>
                         <input type="text" hidden name="idSmallCategory" value="<%=element.idSmallCategory%>" />
                         <input type="text" name="nameSmallCategory" value="<%=element.nameSmallCategory%>" />
+                        <input type="hidden" value="<%=srt%>" name="srt">
                       </td>
                       <td><button class="btn btn-primary">sửa</button></td>
                     </form>

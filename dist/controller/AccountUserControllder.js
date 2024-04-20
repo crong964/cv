@@ -85,6 +85,39 @@ class AccountUserControllder {
             return c;
         });
     }
+    GetAllAccountUser() {
+        return __awaiter(this, void 0, void 0, function* () {
+            var list = [];
+            try {
+                var ls = yield (0, AccountUserDB_1.GetAllAccountUserDB)();
+                for (let i = 0; i < ls.length; i++) {
+                    const element = ls[i];
+                    var account = new AccountUser_1.default();
+                }
+            }
+            catch (error) {
+                (0, lib_1.err)("GetAllAccountUser AccountUserControllder", error);
+            }
+        });
+    }
+    GetAccountUserById(userid) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var v;
+            try {
+                var l = yield (0, AccountUserDB_1.GetAccountUserByIdDB)(userid);
+                for (let i = 0; i < l.length; i++) {
+                    const element = l[i];
+                    v = new AccountUser_1.default();
+                    v.setAll(element);
+                    break;
+                }
+            }
+            catch (error) {
+                (0, lib_1.err)("GetAccountUserById AccountUserControllder", error);
+            }
+            return v;
+        });
+    }
 }
 AccountUserControllder.list = new Map();
 exports.default = new AccountUserControllder();

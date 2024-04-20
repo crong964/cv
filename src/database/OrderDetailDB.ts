@@ -1,4 +1,4 @@
-import { con_mysql2 } from "./configMySQL";
+import con_mysql2  from "./configMySQL";
 
 export function AddDB(idChildProduct: string, idorder: number, price: number, quantity: number) {
     return new Promise((exc, rej) => {

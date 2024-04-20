@@ -21,8 +21,8 @@ const BigcategoryController_1 = __importDefault(require("../../controller/Bigcat
 const sercurity_1 = __importDefault(require("../../lib/sercurity"));
 const lib_1 = require("../../lib/lib");
 const client_2 = require("../../lib/client");
-const productClient = (0, express_1.default)();
-productClient.get("/:id", (0, client_1.AuthorOrUnauthor)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const product = (0, express_1.default)();
+product.get("/:id", (0, client_1.AuthorOrUnauthor)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var t = req.body;
     var id = req.params.id;
     if (id == undefined) {
@@ -41,7 +41,7 @@ productClient.get("/:id", (0, client_1.AuthorOrUnauthor)(), (req, res) => __awai
     var pa = (0, path_1.join)(admin_1.default.path, "client/page/html/product/single-product.ejs");
     (0, client_2.RenderHtmlFinal)(req, res, pa, { vbt, product, cart: cart });
 }));
-productClient.post("/", (0, client_1.AuthorOrUnauthor)(), (0, client_1.verifi_post)({ lenght: 14, va: "v" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+product.post("/", (0, client_1.AuthorOrUnauthor)(), (0, client_1.verifi_post)({ lenght: 14, va: "v" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var t = req.body;
     var idBigCategory = req.body.idBigCategory;
     if (idBigCategory == undefined) {
@@ -55,4 +55,4 @@ productClient.post("/", (0, client_1.AuthorOrUnauthor)(), (0, client_1.verifi_po
     var pa = (0, path_1.join)(admin_1.default.path, "client/page/html/product/product-list.ejs");
     res.render(pa, { ip: admin_1.default.address, name: t.nameUserInSerVer, listBigCate, list, crt });
 }));
-exports.default = productClient;
+exports.default = product;

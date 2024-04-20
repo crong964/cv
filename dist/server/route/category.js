@@ -17,13 +17,18 @@ const path_1 = __importDefault(require("path"));
 const admin_1 = __importDefault(require("../../admin"));
 const BigcategoryController_1 = __importDefault(require("../../controller/BigcategoryController"));
 const SmallcategoryControllder_1 = __importDefault(require("../../controller/SmallcategoryControllder"));
+const sercurity_1 = __importDefault(require("../../lib/sercurity"));
+const admin_2 = require("../../lib/admin");
+const client_1 = require("../../middleware/client");
 const BigCategory = (0, express_1.Router)();
 BigCategory.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var list = yield Promise.all([BigcategoryController_1.default.GetAllBigcategory(),
         SmallcategoryControllder_1.default.GetAllSmallcategory()]);
-    res.render(path_1.default.join(admin_1.default.path, "/server/page/html/category.ejs"), { ip: admin_1.default.address, list1: list[0], list2: list[1] });
+    var srt = sercurity_1.default.CreateBase64Url(JSON.stringify(sercurity_1.default.CreateSign(14)));
+    var pa = path_1.default.join(admin_1.default.path, "/server/page/html/category.ejs");
+    (0, admin_2.RenderHtmlFinal_AD)(req, res, pa, { list1: list[0], list2: list[1], srt: srt });
 }));
-BigCategory.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+BigCategory.post("/small", (0, client_1.verifi_post)({ lenght: 4, va: "srt" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body);
     res.redirect(`${admin_1.default.address}admin/category`);
 }));

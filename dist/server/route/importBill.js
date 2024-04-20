@@ -20,11 +20,17 @@ const TempCartController_1 = __importDefault(require("../../controller/TempCartC
 const lib_1 = require("../../lib/lib");
 const admin_1 = __importDefault(require("../../admin"));
 const path_1 = __importDefault(require("path"));
+const admin_2 = require("../../lib/admin");
+const ImportBill_1 = __importDefault(require("../../model/ImportBill"));
+const client_1 = require("../../middleware/client");
+const ImportedBillController_1 = __importDefault(require("../../controller/ImportedBillController"));
 const imPortBill = (0, express_1.Router)();
 imPortBill.use(lib_1.vali);
 imPortBill.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var list = yield ImportBillController_1.default.GetAllImportBill();
-    res.render(path_1.default.join(admin_1.default.path, "server/page/html/importbill/importBillList.ejs"), { ip: admin_1.default.address, list: list });
+    var status = req.query.status || "";
+    var list = yield ImportBillController_1.default.GetAllImportBill({ status });
+    var pa = path_1.default.join(admin_1.default.path, "server/page/html/importbill/importBillList.ejs");
+    (0, admin_2.RenderHtmlFinal_AD)(req, res, pa, { list, s: ImportBill_1.default.statusS });
 }));
 imPortBill.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var data = req.body;
@@ -81,7 +87,7 @@ imPortBill.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     res.json({ mess: "ok" });
 }));
 imPortBill.post("/listImportBill", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var list = yield ImportBillController_1.default.GetAllImportBill();
+    var list = yield ImportBillController_1.default.GetAllImportBill({});
     res.json(list);
 }));
 imPortBill.post("/removeBill", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -92,5 +98,27 @@ imPortBill.post("/removeBill", (req, res) => __awaiter(void 0, void 0, void 0, f
     else {
         res.json({ err: true, mess: "xóa thất bại" });
     }
+}));
+imPortBill.post("/UpdateImportBillStatus", (0, client_1.verifi_post)({ lenght: 10, va: "srt" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var id = req.body.id;
+    var status = parseInt(req.body.status);
+    var list = yield ContainImportBillController_1.default.GetAllByIdImportBill(id);
+    for (let i = 0; i < list.length; i++) {
+        const element = list[i];
+        if (element.amount != element.importedAmount) {
+            res.redirect(`/admin/containImportBill/${id}?tb=chuanhapdu`);
+            return;
+        }
+    }
+    var l = yield ImportedBillController_1.default.GetAllImportedBillById(id);
+    for (let i = 0; i < l.length; i++) {
+        const element = l[i];
+        if (element.status === 'chưa thanh toán') {
+            res.redirect(`/admin/containImportBill/${id}?tb=chuanhapdu`);
+            return;
+        }
+    }
+    var check = yield ImportBillController_1.default.UpdateStatus(id, 1);
+    res.redirect(`/admin/containImportBill/${id}?tb=thanhcong`);
 }));
 exports.default = imPortBill;

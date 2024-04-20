@@ -1,5 +1,5 @@
 import { RowDataPacket } from "mysql2";
-import { AddAccountUserDB, GetAccountUserByAccAndPassDB, GetAccountUserByAccDB } from "../database/AccountUserDB";
+import { AddAccountUserDB, GetAccountUserByAccAndPassDB, GetAccountUserByAccDB, GetAccountUserByIdDB, GetAllAccountUserDB } from "../database/AccountUserDB";
 import AccountUser from "../model/AccountUser";
 import { err } from "../lib/lib";
 
@@ -19,7 +19,7 @@ class AccountUserControllder {
                 break
             }
         } catch (error) {
-            err("GetAccountUserByAccAndPass AccountUserControllder", error as string)
+            err("GetAccountUserByAccAndPass AccountUserControllder", error)
         }
         return v
     }
@@ -48,7 +48,7 @@ class AccountUserControllder {
                     break
                 }
             } catch (error) {
-                err("Has AccountUserControllder", error as string)
+                err("Has AccountUserControllder", error)
             }
         }
         return v
@@ -59,11 +59,44 @@ class AccountUserControllder {
             c = await AddAccountUserDB(account, password, id)
         } catch (error) {
             c = undefined
-            err("AddAccountUser AccountUserControllder", error as string)
+            err("AddAccountUser AccountUserControllder", error)
         }
         return c
+    }
+    async GetAllAccountUser() {
+        var list = []
+        try {
+            var ls = await GetAllAccountUserDB() as []
+            for (let i = 0; i < ls.length; i++) {
+                const element = ls[i];
+                var account = new AccountUser()
+
+            }
+        } catch (error) {
+            err("GetAllAccountUser AccountUserControllder", error)
+        }
+    }
+    async GetAccountUserById(userid: string) {
+        var v
+        try {
+            var l = await GetAccountUserByIdDB(userid) as RowDataPacket[]
+            for (let i = 0; i < l.length; i++) {
+                const element = l[i];
+                v = new AccountUser()
+                v.setAll(element)
+                break
+            }
+
+        } catch (error) {
+            err("GetAccountUserById AccountUserControllder", error)
+        }
+        return v
     }
 }
 
 
 export default new AccountUserControllder()
+
+
+
+

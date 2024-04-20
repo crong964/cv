@@ -1,6 +1,35 @@
-.cursor-pointer{
+.cursor-pointer {
     cursor: pointer;
 }
-body{
+
+body {
     background-color: rgba(231, 222, 222, 0.616);
+}
+
+.S-0 {
+    background-color: red;
+    color: white;
+    border-color: red;
+    border-radius: 11px;
+}
+.S-1 {
+    background-color: green;
+    color: white;
+    border-color: green;
+    border-radius: 11px;
+}
+
+.S-Infor-0 {
+    text-align: center;
+    border: #76FE4D ;
+    background-color: #76FE4D !important;
+    color: #156D00;
+    border-radius: 18px;
+}
+.S-Infor-1 {
+    text-align: center;
+    border: red ;
+    background-color: red !important;
+    color: white;
+    border-radius: 18px;
 }

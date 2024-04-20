@@ -39,5 +39,17 @@ class SmallcategoryControllder {
             return list;
         });
     }
+    UpdateSmallcategory(idSmallCategory, nameSmallCategory) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var check;
+            try {
+                check = (yield (0, SmallcategoryDB_1.UpdateSmallcategoryDB)(idSmallCategory, nameSmallCategory));
+            }
+            catch (error) {
+                (0, lib_1.err)("UpdateSmallcategory SmallcategoryControllder", error);
+            }
+            return check;
+        });
+    }
 }
 exports.default = new SmallcategoryControllder();

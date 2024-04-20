@@ -12,9 +12,9 @@ import { convertMoney } from "../../lib/lib";
 import { RenderHtmlFinal } from "../../lib/client";
 
 
-const productClient = express();
+const product = express();
 
-productClient.get("/:id", AuthorOrUnauthor(), async (req, res) => {
+product.get("/:id", AuthorOrUnauthor(), async (req, res) => {
     var t: Login = req.body;
     var id = req.params.id as unknown as number
     if (id == undefined) {
@@ -36,7 +36,7 @@ productClient.get("/:id", AuthorOrUnauthor(), async (req, res) => {
     var pa = join(ip.path, "client/page/html/product/single-product.ejs"); 
     RenderHtmlFinal(req,res,pa,{vbt, product, cart: cart})
 });
-productClient.post("/", AuthorOrUnauthor(), verifi_post({ lenght: 14, va: "v" }),
+product.post("/", AuthorOrUnauthor(), verifi_post({ lenght: 14, va: "v" }),
     async (req, res) => {
         var t: Login = req.body;
         var idBigCategory = req.body.idBigCategory;
@@ -55,4 +55,4 @@ productClient.post("/", AuthorOrUnauthor(), verifi_post({ lenght: 14, va: "v" })
     }
 );
 
-export default productClient;
+export default product;

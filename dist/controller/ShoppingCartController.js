@@ -22,7 +22,13 @@ class ShoppingCartController {
         return __awaiter(this, void 0, void 0, function* () {
             var check;
             if ((yield this.Has(idChildPro, idUser)) == false) {
-                check = (yield (0, ShoppingCartDB_1.InsertProductInCartDB)(idChildPro, idUser));
+                try {
+                    check = (yield (0, ShoppingCartDB_1.InsertProductInCartDB)(idChildPro, idUser));
+                }
+                catch (error) {
+                    check = undefined;
+                    (0, lib_1.err)('InsertProductInCart ShoppingCartController', error);
+                }
             }
             return check;
         });

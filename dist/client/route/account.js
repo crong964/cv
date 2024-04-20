@@ -19,7 +19,7 @@ const admin_1 = __importDefault(require("../../admin"));
 const sercurity_1 = __importDefault(require("../../lib/sercurity"));
 const client_1 = require("../../middleware/client");
 const AccountUserControllder_1 = __importDefault(require("../../controller/AccountUserControllder"));
-const InforuserController_1 = __importDefault(require("../../controller/InforuserController"));
+const InforUserController_1 = __importDefault(require("../../controller/InforUserController"));
 const RefreshTokenUserController_1 = __importDefault(require("../../controller/RefreshTokenUserController"));
 const account = (0, express_1.default)();
 account.get("/", (0, client_1.AuthorOrUnauthor)(), (req, res) => {
@@ -67,7 +67,7 @@ account.post("/signup", (0, client_1.verifi_post)(), (req, res) => __awaiter(voi
         res.redirect(`${admin_1.default.address}account/signup?tb=trungtk`);
         return;
     }
-    var s = yield InforuserController_1.default.AddInforuser(g.address, g.phonenumber);
+    var s = yield InforUserController_1.default.AddInforuser(g.address, g.phonenumber);
     if ((s === null || s === void 0 ? void 0 : s.insertId) == 0 || (s === null || s === void 0 ? void 0 : s.insertId) == undefined || s == undefined) {
         res.redirect(`${admin_1.default.address}account/signup?tb=khongthemdc`);
         return;

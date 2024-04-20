@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../../css.ejs')%>
+
+    <body>
+        <%- include('../../header.ejs')%>
+            <div class="container" style="min-height: 700px;">
+                <div class="row">
+                    <div class="col-2 p-0 pt-5">
+                        <%- include('../../infor.ejs')%>
+                    </div>
+                    <div class="col-10 p-0">
+                        <div class="container">
+                            <h1>
+                                Hồ sờ của tôi
+                            </h1>
+                            <div class="bg-light rounded" style="min-height: 500px;">
+                                <div class="row">
+                                    <div class="col-8 p-4">
+                                        <div class="mb-3 row">
+                                            <label for="staticEmail" class="col-sm-4 col-form-label">tài khoản</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" readonly class="form-control-plaintext"
+                                                    id="staticEmail" value="<%=acc.account%>">
+                                            </div>
+                                        </div>
+                                        <form action="<%=ip%>user/profile" method="post">
+                                            <div class="mb-3 row">
+                                                <label for="name" class="col-sm-4 col-form-label">tên ngươi
+                                                    dùng</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="name"
+                                                        value="<%=profi.name%>" id="name">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label for="numberPhone" class="col-sm-4 col-form-label">số điện
+                                                    thoại</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control"
+                                                        value="<%=profi.numberPhone%>" name="numberPhone"
+                                                        id="numberPhone">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label for="address" class="col-sm-4 col-form-label">địa chỉ</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="address"
+                                                        value="<%=profi.address%>" id="address">
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="profiSer" value="<%=profiSer%>">
+                                            <button class="btn btn-primary">cập nhật</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%- include('../../footer.ejs')%>
+    </body>
+
+</html>

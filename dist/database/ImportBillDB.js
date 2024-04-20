@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RemoveBill = exports.InsertImportBillDB = exports.GetAllImportBillDB = exports.GetImportBillByIdDB = void 0;
+exports.UpdateStatusDB = exports.RemoveBill = exports.InsertImportBillDB = exports.GetAllImportBillDB = exports.GetImportBillByIdDB = void 0;
 const configMySQL_1 = __importStar(require("./configMySQL"));
 const mysql_1 = __importDefault(require("mysql"));
 function GetImportBillByIdDB(idImportBill) {
@@ -48,15 +48,15 @@ function GetImportBillByIdDB(idImportBill) {
     });
 }
 exports.GetImportBillByIdDB = GetImportBillByIdDB;
-function GetAllImportBillDB() {
+function GetAllImportBillDB(pa) {
     return new Promise((res, rej) => {
         var con = mysql_1.default.createConnection(configMySQL_1.default);
         con.connect((err) => {
             if (err) {
                 rej(err);
             }
-            var sql = "SELECT * FROM importbill WHERE status > -1";
-            con.query(sql, (err, result, field) => {
+            var sql = "SELECT * FROM importbill WHERE status > -1 AND status like ?";
+            con.query(sql, [`%${pa.status}%`], (err, result, field) => {
                 if (err) {
                     rej(err);
                 }
@@ -98,3 +98,15 @@ function RemoveBill(idImportBill) {
     });
 }
 exports.RemoveBill = RemoveBill;
+function UpdateStatusDB(idImportBill, status) {
+    return new Promise((res, rej) => {
+        var sql = `UPDATE importbill SET status= ? WHERE idImportBill = ?`;
+        configMySQL_1.con_mysql2.query(sql, [status, idImportBill], ((err, result, fiels) => {
+            if (err) {
+                rej(err);
+            }
+            res(result);
+        }));
+    });
+}
+exports.UpdateStatusDB = UpdateStatusDB;

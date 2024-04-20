@@ -52,15 +52,15 @@ product.get("/productadd", (req, res) => __awaiter(void 0, void 0, void 0, funct
 }));
 product.post("/productadd", upload, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var post = req.body;
-    console.log(req.body);
     var files = req.files;
     var listFile = [];
     var childFiles = files["childimage"];
+    var avatar = files['image'][0];
     for (let i = 0; i < childFiles.length; i++) {
         const element = childFiles[i];
         listFile.push(element.filename);
     }
-    var idProduct = 0;
+    var idProduct;
     var bt = {
         bt1: post.bt1,
         bt2: post.bt2,
@@ -68,22 +68,49 @@ product.post("/productadd", upload, (req, res) => __awaiter(void 0, void 0, void
         dsbt2: post.dsbt2,
         listFile: listFile
     };
-    if (req.files) {
+    if (avatar) {
         idProduct = yield ProductController_1.default.AddProduct(post.namePro, post.Price, post.ImportPrice, post.idBigCategory, post.idSmallCategory, files["image"][0].filename, JSON.stringify(bt));
+    }
+    else {
+        for (let i = 0; i < childFiles.length; i++) {
+            const element = childFiles[i];
+            try {
+                var paSrc = (0, win32_1.join)(admin_1.default.path, "/public/imageProduct", element.filename);
+                var paDest = (0, win32_1.join)(admin_1.default.path, "/deleteFile", element.filename);
+                yield (0, promises_2.copyFile)(paSrc, paDest);
+                yield (0, promises_1.unlink)(paSrc);
+            }
+            catch (error) {
+                (0, lib_1.err)('C:/Users/PC/Documents/code/doan/src/server/route/product.ts', error);
+            }
+        }
+        res.redirect(`${admin_1.default.address}admin/product/productadd`);
+        return;
     }
     var ls = post.v1.map((v1, i) => __awaiter(void 0, void 0, void 0, function* () {
         let in1 = parseInt(v1);
         let in2 = parseInt(post.v2[i]);
         let bt1 = post.dsbt1[in1];
-        let bt2 = post.dsbt2[in2] ? post.dsbt2[in2] : "";
-        let idChildProduct = `${idProduct}-${in1}`;
+        let bt2 = post.dsbt2[in2] || "";
+        let idChildProduct = `${idProduct === null || idProduct === void 0 ? void 0 : idProduct.insertId}-${in1}`;
         if (post.dsbt2.length > 0) {
             idChildProduct += `-${in2}`;
         }
-        let nameChildProduct = yield ChildProductController_1.default.AddChildProduct(idChildProduct, idProduct + "", post.namePro + " " + bt2 + " " + bt1, post.dsimportPrice[i] + "", post.dsPrice[i] + "", files["childimage"][in1].filename);
+        let nameChildProduct = yield ChildProductController_1.default.AddChildProduct(idChildProduct, (idProduct === null || idProduct === void 0 ? void 0 : idProduct.insertId) + "", post.namePro + " " + bt2 + " " + bt1, post.dsimportPrice[i] + "", post.dsPrice[i] + "", files["childimage"][in1].filename);
+        if (nameChildProduct == undefined) {
+            var paSrc = (0, win32_1.join)(admin_1.default.path, "/public/imageProduct", files["childimage"][in1].filename);
+            var paDest = (0, win32_1.join)(admin_1.default.path, "/deleteFile", files["childimage"][in1].filename);
+            yield (0, promises_2.copyFile)(paSrc, paDest);
+            yield (0, promises_1.unlink)(paSrc);
+        }
         return nameChildProduct;
     }));
     var checkls = yield Promise.all(ls);
+    checkls.forEach((v) => {
+        if (v == undefined) {
+            console.log('có lỗi insert ');
+        }
+    });
     res.redirect(`${admin_1.default.address}admin/product/productadd`);
 }));
 product.post("/delete", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

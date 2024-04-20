@@ -44,7 +44,6 @@ class RefreshTokenUserController {
     }
     GetRefreshTokenUser(userId, refreshtoken) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log();
             var v;
             try {
                 var ls = yield (0, RefreshTokenUserDB_1.GetRefreshTokenUserDB)(userId, refreshtoken);

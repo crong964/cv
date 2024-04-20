@@ -78,7 +78,7 @@ class ChildProductController {
       .then((v) => {
         check = true;
         var temp = ChildProductController.listChildProduct.get(idChildProduct);
-        if (temp ) {
+        if (temp) {
           temp.amount += parseInt(quantity);
         }
       })
@@ -89,21 +89,21 @@ class ChildProductController {
     return check;
   }
   async DecreaseAmountChildProduct(idChildProduct: string, quantity: number) {
+    quantity = parseInt(quantity + "")
     quantity *= -1;
     var check = false;
-    await UpdateAmountChildProductDB(idChildProduct, quantity)
-      .then((v) => {
-        var tem = ChildProductController.listChildProduct.get(idChildProduct + "");
-        if (tem != undefined) {
-          tem.amount += parseInt(quantity + "");
 
-        }
-        check = true;
-      })
-      .catch((v) => {
-        err("ChildProductController DecreaseAmountChildProduct", v);
-        check = false;
-      });
+    try {
+      var s = await UpdateAmountChildProductDB(idChildProduct, quantity)
+      var tem = ChildProductController.listChildProduct.get(idChildProduct + "");
+      if (tem != undefined) {
+        tem.amount += parseInt(quantity + "");
+      }
+      check = true;
+    } catch (error) {
+      err("ChildProductController DecreaseAmountChildProduct", error);
+      check = false;
+    }
     return check;
   }
   async AddChildProduct(idChildProduct: string, idProduct: string, nameChildProduct: string, importPrice: string, price: string, image: string) {

@@ -35,10 +35,171 @@
                                         <%=bill.createday%>
                                     </div>
                                 </div>
+                                <div class="mb-3 row">
+                                    <label for="inputPassword" class="col-sm-2 col-form-label">trạng thái vận
+                                        chuyển</label>
+                                    <div class="col-sm-10">
+                                        <%=bill.shipS%>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="inputPassword" class="col-sm-2 col-form-label">thanh toán</label>
+                                    <div class="col-sm-10">
+                                        <%=bill.payS%>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                        <div class="bg-light rounded" style="min-height: 500px;">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-center">Ảnh sản phẩm</th>
+                                        <th scope="col">giá mua</th>
+                                        <th scope="col">số lượng</th>
+                                        <th scope="col">tổng tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%list.forEach((v)=> {%>
+                                        <tr>
+                                            <td scope="row">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <img id="avatar" style="width: 100px; height: auto;"
+                                                                src="<%=ip%>static/imageProduct/<%=v.image%>" alt=""
+                                                                srcset="">
+                                                        </div>
+                                                        <div class="col-6 fs-2 text">
+                                                            <%=v.nameChildProduct%>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="M">
+                                                <%=v.price%>
+                                            </td>
+                                            <td>
+                                                <%=v.quantity%>
+                                            </td>
+                                            <td class="M">
+                                                <%=v.price*v.quantity%>
+                                            </td>
+                                        </tr>
+                                        <% })%>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2" class="fs-2">Tổng tiền hóa đơn</td>
+                                        <td colspan="2" class="M fs-2">
+                                            <%=bill.totolmoney%>
+                                        </td>
+                                    </tr>
+                                    <!-- public static shipmentstatus = ['chưa giao', 'đang giao','hủy giao'] -->
+                                    <% if (bill.ship==0 ){%>
+                                        <tr>
+                                            <td colspan="3" class="fs-2">Trạng thái</td>
+                                            <td colspan="2">
+                                                <form action="<%=ip%>admin/orderbill/ship" onsubmit="return ket()"
+                                                    method="post">
+                                                    <input type="hidden" name="ship" value="1">
+                                                    <input type="hidden" name="id" value="<%=bill.id%>">
+                                                    <input type="hidden" name="srt" value="<%=srt%>">
+                                                    <button>Giao hàng</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        <%}%>
+                                            <% if (bill.ship==1 ){%>
+                                                <tr>
+                                                    <td colspan="3" class="fs-2">Trạng thái </td>
+                                                    <td colspan="2">
+                                                        <form action="<%=ip%>admin/orderbill/ship"
+                                                            onsubmit="return ket()" method="post">
+                                                            <input type="hidden" name="ship" value="2">
+                                                            <input type="hidden" name="id" value="<%=bill.id%>">
+                                                            <input type="hidden" name="srt" value="<%=srt%>">
+                                                            <button>Hoàn thành</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <%}%>
+                                                    <% if (bill.pay==1 ){%>
+                                                        <tr>
+                                                            <td colspan="3" class="fs-2">Hoàn lại tiền</td>
+                                                            <td colspan="2">
+                                                                <form action="<%=ip%>admin/orderbill/pay"
+                                                                    onsubmit="return ket()" method="post">
+                                                                    <input type="hidden" name="pay" value="3">
+                                                                    <input type="hidden" name="id" value="<%bill.id%>">
+                                                                    <input type="hidden" name="srt" value="<%=srt%>">
+                                                                    <button>xác thực</button>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                        <%}%>
+                                                            <% if (bill.pay==1 ){%>
+                                                                <tr>
+                                                                    <td colspan="3" class="fs-2">Hoàn lại tiền</td>
+                                                                    <td colspan="2">
+                                                                        <form action="<%=ip%>admin/orderbill/pay"
+                                                                            onsubmit="return ket()" method="post">
+                                                                            <input type="hidden" name="pay" value="3">
+                                                                            <input type="hidden" name="id"
+                                                                                value="<%bill.id%>">
+                                                                            <input type="hidden" name="srt"
+                                                                                value="<%=srt%>">
+                                                                            <button>xác thực</button>
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
+                                                                <%}%>
+                                </tfoot>
+                            </table>
+                            <div>
+                                Các phiếu thanh toán
+                            </div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-center">Mã đơn thanh toán</th>
+
+                                        <th scope="col" class="text-center">tổng tiền</th>
+                                        <th scope="col" class="text-center">Nội dung thanh toán</th>
+                                        <th scope="col" class="text-center">trạng thái</th>
+                                        <th scope="col" class="text-center">ngày thánh toán</th>
+                                    </tr>
+                                </thead>
+                                <%payl.forEach((v)=> {%>
+                                    <tr>
+                                        <td class="text-center">
+                                            <%=v.payid%>
+
+                                        </td>
+                                        <td class="text-center M">
+                                            <%=v.totolmoney%>
+                                        </td>
+                                        <td class="text-center ">
+                                            <%=v.orderinfo%>
+                                        </td>
+
+                                        <td>
+                                            <%=statusS[v.status]%>
+                                        </td>
+                                        <td>
+                                            <%=v.day%>
+                                        </td>
+                                    </tr>
+                                    <%})%>
+
+                            </table>
                         </div>
                     </div>
             </div>
+            <%- include('../foot.ejs')%>
     </body>
+    <script src="<%=ip%>static/js/action.js"></script>
+
 
 </html>

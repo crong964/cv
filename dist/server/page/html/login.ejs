@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="<??>static/css/util.css">
-    <link rel="stylesheet" type="text/css" href="<??>static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="<%=ip%>static/css/util.css">
+    <link rel="stylesheet" type="text/css" href="<%=ip%>static/css/main.css">
 </head>
 <style>
     .bx {
@@ -18,11 +18,11 @@
 
 <body>
 
-    <div class="limiter" >
+    <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100">
                 <div class="login100-pic js-tilt" data-tilt>
-                    <img src="<??>static/image/team.jpg" alt="IMG">
+                    <img src="<%=ip%>static/image/team.jpg" alt="IMG">
                 </div>
                 <!--=====TIÊU ĐỀ======-->
                 <div class="login100-form validate-form">
@@ -33,16 +33,20 @@
                     <form action="/login" method="post">
                         <div class=" validate-input">
                             <span class="symbol-input100">
-                               <img src="<??>static/image/1564534_customer_man_user_account_profile_icon.svg" class="bx" alt="" srcset="">
+                                <img src="<%=ip%>static/image/1564534_customer_man_user_account_profile_icon.svg"
+                                    class="bx" alt="" srcset="">
                             </span>
-                            <input autocomplete="off" class="input100" type="text" placeholder="Tài khoản quản trị" name="username" id="username">
+                            <input autocomplete="off" class="input100" type="text" placeholder="Tài khoản quản trị"
+                                name="username" id="username">
 
                         </div>
                         <div class=" validate-input">
                             <span class="symbol-input100">
-                                <img src="<??>static/image/2536777_key_open_password_security_icon.svg" class="bx" alt="" srcset="">
-                             </span>
-                            <input autocomplete="off" class="input100" type="password" placeholder="Mật khẩu" name="password" id="password-field">
+                                <img src="<%=ip%>static/image/2536777_key_open_password_security_icon.svg" class="bx"
+                                    alt="" srcset="">
+                            </span>
+                            <input autocomplete="off" class="input100" type="password" placeholder="Mật khẩu"
+                                name="password" id="password-field">
 
                         </div>
 

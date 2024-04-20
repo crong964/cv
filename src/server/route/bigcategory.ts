@@ -3,24 +3,27 @@ import path from "path";
 import ip from "../../admin";
 import BigcategoryController from "../../controller/BigcategoryController";
 import SmallcategoryControllder from "../../controller/SmallcategoryControllder";
+import sercurity from "../../lib/sercurity";
+import { RenderHtmlFinal_AD } from "../../lib/admin";
+import { verifi_post } from "../../middleware/client";
 
 
 
 
-const BigCategory = Router()
+const bigcategory = Router()
 
-BigCategory.get("/", async (req, res) => {
+bigcategory.get("/", async (req, res) => {
     var list = await Promise.all([BigcategoryController.GetAllBigcategory(),
     SmallcategoryControllder.GetAllSmallcategory()])
 
+    var srt = sercurity.CreateBase64Url(JSON.stringify(sercurity.CreateSign(14)))
 
-    res.render(path.join(ip.path, "/server/page/html/category.ejs"), { ip: ip.address, list1: list[0], list2: list[1] })
+    var pa = path.join(ip.path, "/server/page/html/category.ejs")
+
+    RenderHtmlFinal_AD(req, res, pa, { list1: list[0], list2: list[1], srt: srt })
 })
-BigCategory.post("/", async (req, res) => {
-    console.log(req.body);
-    res.redirect(`${ip.address}admin/category`)
-})
-BigCategory.post("/Add", async (req, res) => {
+
+bigcategory.post("/Add", async (req, res) => {
     if (!req.body.name) {
 
         res.redirect(`${ip.address}admin/category`)
@@ -36,7 +39,7 @@ BigCategory.post("/Add", async (req, res) => {
     var check = await BigcategoryController.AddBigCategory(name)
     res.redirect(`${ip.address}admin/category`)
 })
-BigCategory.post("/Edit", async (req, res) => {
+bigcategory.post("/Edit", async (req, res) => {
     if (!req.body.id && !req.body.name) {
         res.redirect(`${ip.address}admin/category`)
         return
@@ -50,11 +53,11 @@ BigCategory.post("/Edit", async (req, res) => {
     console.log(check);
 
 })
-BigCategory.post("/Delete", async (req, res) => {
+bigcategory.post("/Delete", async (req, res) => {
     var id: string = req.body.id
     if (id != undefined) {
         await BigcategoryController.DeleteBigCategoryByid(id)
     }
     res.redirect(`${ip.address}admin/category`)
 })
-export default BigCategory
+export default bigcategory

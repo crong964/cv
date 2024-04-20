@@ -1,3 +1,4 @@
+<html>
 <%- include('../../css')%>
 
     <body>
@@ -5,7 +6,7 @@
             <div class="container " style="min-height: 700px;">
                 <div class="row">
                     <div class="col-1">
-                        
+
                     </div>
                     <div class="col-11">
                         <div class="container">
@@ -41,13 +42,13 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td class="M">
                                                     <%=v.price%>
                                                 </td>
                                                 <td>
                                                     <%=v.quantity%>
                                                 </td>
-                                                <td>
+                                                <td class="M">
                                                     <%=v.price*v.quantity%>
                                                 </td>
                                             </tr>
@@ -56,20 +57,24 @@
                                     <tfoot>
                                         <tr>
                                             <td colspan="1" class="fw-bold text-center">tống tiền</td>
-                                            <td colspan="3">
+                                            <td colspan="3" class="M">
                                                 <%=bill.totolmoney%>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="1" class="fw-bold text-center">Thanh toán</td>
                                             <td colspan="3">
-                                                <%=bill.payS%>
+                                                <button class="S-<%=bill.pay%>">
+                                                    <%=bill.payS%>
+                                                </button>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="1" class="fw-bold text-center">Trạng thái đơn hàng</td>
                                             <td colspan="3">
-                                                <%=bill.shipS%>
+                                                <button class="S-<%=bill.ship%>">
+                                                    <%=bill.shipS%>
+                                                </button>
                                             </td>
                                         </tr>
                                         <tr>
@@ -78,8 +83,70 @@
                                                 <%=bill.createday%>
                                             </td>
                                         </tr>
+                                        <!-- <tr>
+                                            <td colspan="3"></td>
+                                            <td colspan="1">
+                                                <button onclick="paid('<%=bill.id%>','<%=ser%>')">thanh toán</button>
+                                            </td>
+                                        </tr> -->
                                     </tfoot>
                                 </table>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="text-center">Mã đơn thanh toán</th>
+
+                                            <th scope="col" class="text-center">tổng tiền</th>
+                                            <th scope="col" class="text-center">Nội dung thanh toán</th>
+                                        </tr>
+                                    </thead>
+                                    <%payl.forEach((v)=> {%>
+                                        <tr>
+                                            <td class="text-center">
+                                                <%=v.payid%>
+
+                                            </td>
+                                            <td class="text-center M">
+                                                <%=v.totolmoney%>
+                                            </td>
+                                            <td class="text-center ">
+                                                <%=v.orderinfo%>
+                                            </td>
+                                        </tr>
+                                        <%})%>
+
+                                </table>
+                                <%if(bill.pay==0){%>
+                                    <div class="p-1 ">
+                                        <h1 class="text-center">Chọn ngân hàng thành toán</h1>
+                                        <form action="<%=ip%>vnpay/create_payment_url" method="post">
+
+                                            <input type="hidden" name="pay" value="<%=pay%>">
+                                            <input type="hidden" name="bilid" value="<%=bill.id%>">
+                                            <input type="hidden" name="totolmoney" value="<%=bill.totolmoney%>">
+                                            <div class="container">
+                                                <div class="row ">
+                                                    <% s.forEach((v)=> {%>
+                                                        <div class="col-2 " style="height: 100px;"
+                                                            title="<%=v.bank_name%>">
+                                                            <div class="p-2 border border-5  <%=v.bank_code%> bankcode"
+                                                                onclick="add('<%=v.bank_code%>')">
+                                                                <img width="100%" height="40px"
+                                                                    src="https://sandbox.vnpayment.vn/<%=v.logo_link%>"
+                                                                    alt="" srcset="">
+                                                            </div>
+                                                        </div>
+                                                        <%})%>
+                                                            <input type="hidden" id="cb" name="bankCode" value="NCB">
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <button class="col-3">thành toán</button>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <%}%>
                             </div>
 
                         </div>
@@ -89,3 +156,23 @@
             </div>
             <%- include('../../footer.ejs')%>
     </body>
+
+</html>
+<script type="text/javascript" src="<%=ip%>static/js/action.js"></script>
+<script type="text/javascript" src="<%=ip%>static/js/client.js"></script>
+<script>
+    function removebankcodeBoder() {
+        var s = document.querySelectorAll(".bankcode")
+        s.forEach((v) => {
+            if (v.classList.contains("border-danger")) {
+                v.classList.remove("border-danger")
+            }
+        })
+    }
+    function add(params) {
+        removebankcodeBoder()
+        var s = document.querySelector('.' + params)
+        s.classList.add("border-danger")
+        document.getElementById("cb").value = params
+    }
+</script>

@@ -79,11 +79,12 @@ class ImportBillController {
             return check;
         });
     }
-    GetAllImportBill() {
+    GetAllImportBill(pa) {
         return __awaiter(this, void 0, void 0, function* () {
+            pa.status = pa.status || "";
             var list = [];
-            yield (0, ImportBillDB_1.GetAllImportBillDB)()
-                .then((v) => {
+            try {
+                var v = yield (0, ImportBillDB_1.GetAllImportBillDB)(pa);
                 for (let i = 0; i < v.length; i++) {
                     const element = v[i];
                     let importBill = new ImportBill_1.default();
@@ -93,22 +94,36 @@ class ImportBillController {
                         list.push(importBill);
                     }
                 }
-            })
-                .catch((v) => {
-                (0, lib_1.err)("GetAllImportBill ImportBillController", v);
-            });
+            }
+            catch (error) {
+                (0, lib_1.err)("GetAllImportBill ImportBillController", error);
+            }
             return list;
         });
     }
     RemoveBill(idImportBill) {
         return __awaiter(this, void 0, void 0, function* () {
             var check;
-            yield (0, ImportBillDB_1.RemoveBill)(idImportBill).catch((v) => {
-                (0, lib_1.err)("RemoveBill ImportBillController", v);
-            })
-                .then((v) => {
-                check = v;
-            });
+            try {
+                check = (yield (0, ImportBillDB_1.RemoveBill)(idImportBill));
+                ImportBillController.listImportBill.delete(idImportBill);
+            }
+            catch (error) {
+                (0, lib_1.err)("RemoveBill ImportBillController", error);
+            }
+            return check;
+        });
+    }
+    UpdateStatus(idImportBill, status) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var check;
+            try {
+                check = (yield (0, ImportBillDB_1.UpdateStatusDB)(idImportBill, status));
+                ImportBillController.listImportBill.delete(idImportBill);
+            }
+            catch (error) {
+                (0, lib_1.err)("UpdateStatus ImportBillController", error);
+            }
             return check;
         });
     }

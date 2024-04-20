@@ -1,4 +1,5 @@
-import { GetAllSmallcategoryDB } from "../database/SmallcategoryDB";
+import { ResultSetHeader } from "mysql2/promise";
+import { GetAllSmallcategoryDB, UpdateSmallcategoryDB } from "../database/SmallcategoryDB";
 import { err } from "../lib/lib";
 import Smallcategory from "../model/Smallcategory";
 
@@ -24,6 +25,16 @@ class SmallcategoryControllder {
             console.log(error);
         }
         return list
+    }
+    async UpdateSmallcategory(idSmallCategory: string, nameSmallCategory: string) {
+        var check
+        try {
+            check = await UpdateSmallcategoryDB(idSmallCategory, nameSmallCategory) as ResultSetHeader
+
+        } catch (error) {
+            err("UpdateSmallcategory SmallcategoryControllder", error)
+        }
+        return check
     }
 }
 

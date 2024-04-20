@@ -16,7 +16,7 @@ function render(res, ip, pa) {
 }
 exports.render = render;
 function err(where, mess) {
-    console.log(`in ${where} class,\\n err: ${mess}`);
+    console.log(`in ${where} class,\\n err: ${JSON.stringify(mess)}`);
 }
 exports.err = err;
 function vali(req, res, next) {

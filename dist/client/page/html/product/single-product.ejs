@@ -65,10 +65,17 @@
                                     <%=product.amount%>
                                 </p>
                             </div>
-                            <div>
+                            <div class="row">
                                 <button onclick="addShoppingCart()"
-                                    class="btn fs-4 text text-danger px-5 border rounded">thêm vào giỏ hàng</button>
-                                <button class="btn fs-4 text text-white px-5 border bg-danger rounded">mua ngày</button>
+                                    class="btn fs-4 text text-danger col-6 px-5 border rounded">thêm vào giỏ hàng</button>
+                                <form action="<%=ip%>shoppingcart/buynow" onsubmit="return buyNow()" method="post" class="col-6 px-5">
+                                    <input type="hidden" name="cart" value="<%=cart%>">
+                                    <input type="hidden" name="childproductId" value="" id="childproductId">
+                                    <button class="btn fs-4 text text-white border bg-danger rounded">
+                                        mua ngay
+                                    </button>
+                                </form>
+
                             </div>
                         </div>
                     </div>
@@ -91,15 +98,15 @@
             }
             var idchild = `${id}-${a}-${b}`
             fetchGetUrl('<%=ip%>childproduct/' + idchild, (data) => {
-                
+
                 if (data.quantity == 0) {
                     document.querySelector('.q').textContent = 'Hết hàng'
                 }
-                else{
+                else {
                     document.querySelector('.q').innerHTML = data.quantity
                 }
                 document.querySelector('.nameChildPro').textContent = data.nameChildPro
-                document.getElementById('avatar').src='<%=ip%>static/imageProduct/'+data.image
+                document.getElementById('avatar').src = '<%=ip%>static/imageProduct/' + data.image
                 console.log(data);
             })
         }
@@ -137,6 +144,19 @@
             fetchPostUrl("<%=ip%>shoppingcart/add", { cart: "<%=cart%>", id: idchild }, (data) => {
                 alert(data.mess)
             })
+        }
+        function buyNow() {
+            if (a == undefined) {
+                tb()
+                return false
+            }
+            if (b == undefined) {
+                tb()
+                return false
+            }
+            var idchild = `${id}-${a}-${b}`
+            document.getElementById("childproductId").value=idchild
+            return true
         }
         function tb() {
             alert("chưa chọn loại sp")
